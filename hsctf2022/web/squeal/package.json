@@ -1,0 +1,16 @@
+{
+  "name": "squeal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "better-sqlite3": "^7.1.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "jalibr33z3",
+  "license": "ISC"
+}
