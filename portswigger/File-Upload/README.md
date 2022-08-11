@@ -53,13 +53,13 @@ Ta check ở trên Burp Suite thì thấy path này nó chứa đường dẫn c
 
 _Cách 1:_
 
-Từ HTTP history của Burp Suite ta resend path `/files/avatars/exploit.php` qua repeater rồi send nó
-![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload4.png)
+> Từ HTTP history của Burp Suite ta resend path `/files/avatars/exploit.php` qua repeater rồi send nó
+> ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload4.png)
 
 _Cách 2:_
 
-Copy path `/files/avatars/exploit.php` rồi gửi thẳng qua url của web
-![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload5.png)
+> Copy path `/files/avatars/exploit.php` rồi gửi thẳng qua url của web
+> ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload5.png)
 
 **Ngoài ra còn có thể upload script như sau:**
 
@@ -96,10 +96,11 @@ GET /example/exploit.php?command=id HTTP/1.1
 
 **Giao diện ban đầu**
 ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload.png)
-Giao diện ban đầu cũng như lab trên
-Bài này phải dùng Burp Suite để chặn request rồi đổi `Content-Type` thành `image/png` vì đề bài nó filter các file khác file image
-![image](./../asset/file-upload-2-remote-code-execution-via-web-shell-upload.png)
-Đã đổi:
-![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload1.png)
-Bú
-![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
+
+> Giao diện ban đầu cũng như lab trên
+> Bài này phải dùng Burp Suite để chặn request rồi đổi `Content-Type` thành `image/png` vì đề bài nó filter các file khác file image
+> ![image](./../asset/file-upload-2-remote-code-execution-via-web-shell-upload.png)
+> Đã đổi:
+> ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload1.png)
+> Bú
+> ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
