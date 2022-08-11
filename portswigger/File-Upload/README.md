@@ -15,7 +15,7 @@
 
 ## Các lỗ hổng:
 
-### Exploiting unrestriced file uploads to deploy a web shell (Khai thác file upload không hạn chế để triển khai web shell)
+## Exploiting unrestriced file uploads to deploy a web shell (Khai thác file upload không hạn chế để triển khai web shell)
 
 > Tình huống xấu nhất có thể xảy ra là khi một trang web cho phép user tải các tệp script ví dụ như php, java, python . Điều này làm cho việc tạo web shell riêng trên
 > web server trở nên dễ dàng.
@@ -26,7 +26,7 @@
 <?php echo file_get_contents('/path/to/target/file'); ?>
 ```
 
-## Lab: Remote code execute via web shell upload
+### Lab: Remote code execute via web shell upload
 
 > Des: Lab này có chứa 1 chức năng để tải ảnh nên nhưng nó không filter bất kì tệp nào khi upload lên.
 > Nhiệm vụ là tải 1 web shell php cơ bản và sử dụng nó để đọc nội dung của file `/home/carlos/secret`. Sau đó submit flag.
@@ -72,3 +72,34 @@ Copy path `/files/avatars/exploit.php` rồi gửi thẳng qua url của web
 ```
 GET /example/exploit.php?command=id HTTP/1.1
 ```
+
+## Exploiting flawed validation of file uploads (Khai thác xác thực sai của file uploads)
+
+### Flawed file type validation - Xác thực loại file không đúng:
+
+> Khi gửi HTML forms, thì browser sẽ gửi data cùng với phương thức POST với `Content-Type:x-www-form-url-encoded`. Nó phù hợp với văn bản đơn giản
+> như tên, địa chỉ... nhưng nó không phù hợp để gửi 1 lượng lớn dữ liệu nhị phân
+> chẳng hạn như img, pdf, ... Trong case này thì content type đa phần là `multipart/form-data`.
+> Một cách mà các trang web xác thực file upload là qua `Content-Type` xem nó có khớp với `MIME` type không.
+>
+> Ví dụ server chỉ nhận `image/jpeg`, ... đại loại là file img, để bypass qua thì ta có
+> thể sử dụng tools như Burp Repeater.
+
+### Lab: Web shell upload via Content-Type restriction bypass (bypass qua Content-Type)
+
+> Des: Lab này chứa một chức năng tải file img dễ bị attack
+> Nó cố gắng ngăn chặn user tải loại file không mong muốn lên server
+>
+> Mục tiêu: Tải web shell php lên để exploit nội dung của path: `/home/carlos/secret`
+>
+> Có thể đăng nhập bằng tài khoản: `wiener:peter`
+
+**Giao diện ban đầu**
+![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload.png)
+Giao diện ban đầu cũng như lab trên
+Bài này phải dùng Burp Suite để chặn request rồi đổi `Content-Type` thành `image/png` vì đề bài nó filter các file khác file image
+![image](./../asset/file-upload-2-remote-code-execution-via-web-shell-upload.png)
+Đã đổi:
+![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload1.png)
+Bú
+![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
