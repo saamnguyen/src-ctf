@@ -228,3 +228,37 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 
 > Sau đó ta tạo 1 file explout.133t rồi upload lên sẽ exploit được =)))
 > ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload4.png)
+
+---
+
+### Obfuscating file extensions (Làm xáo trộn file extension)
+
+> Ngay cả blacklist đầy đủ nhất cũng sẽ bị bỏ qua bởi các kỹ thuật obfuscating cổ điển.
+> Giả sử xác thực có phân biệt chữ hoa chữ thường ví dụ như tệp `exploit.pHp` là 1 tệp `php`
+> Nếu ánh xạ của MIME không phân biệt chữ hoa chữ thường thì b có thể exploit bằng cách này
+>
+> 1. Tệp như: `exploit.php.jpg`
+> 2. Thêm dấu chấm: `exploit.php.`
+> 3. Dùng URL Encoding (hoặc double URL Encoding) cho dấu chấm, gạch chéo lên, gạch chéo ngược: `exploit%2Ephp`
+> 4. Dùng `Null Byte` tùy vào đc viết bằng các ngôn ngữ khác nhau để xử lý: `exploit.asp;.jpg`, `exploit.asp%00.jpg`
+> 5. Sử dụng các ký tự unicode multibyte để chuyển đổi thành byte và normalization:
+>    `xC0 x2E xAE or xC0 xAE`...
+
+#### Lab: Web shell upload via obfuscated file extension
+
+> Des: Lab này bị dính lỗi file upload, dùng tech xáo trộn cổ điển để exploit nó
+> Mục tiêu: lấy content của path `/home/carlos/secret`
+> Đăng nhập tài khoản: `wiener:peter`
+
+**Giao diên ban đầu**
+![img](../asset/file-upload-5-remote-code-execution-via-web-shell-upload.png)
+
+> Lab này chỉ nhận file img:
+> ![img](../asset/file-upload-5-remote-code-execution-via-web-shell-upload1.png)
+
+> Test:
+> Đổi file dạng kiểu `img.php.jpg` tuy up được nhưng không exploit được
+> ![img](../asset/file-upload-5-remote-code-execution-via-web-shell-upload2.png)
+
+> Ta thử dùng Null Byte:
+> `img.php%00.jpg` > ![img](../asset/file-upload-5-remote-code-execution-via-web-shell-upload3.png)
