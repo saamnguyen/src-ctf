@@ -75,6 +75,8 @@ _Cách 2:_
 GET /example/exploit.php?command=id HTTP/1.1
 ```
 
+---
+
 ## Exploiting flawed validation of file uploads (Khai thác xác thực sai của file uploads)
 
 ### Flawed file type validation - Xác thực loại file không đúng:
@@ -109,6 +111,8 @@ GET /example/exploit.php?command=id HTTP/1.1
 
 > Bú
 > ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
+
+---
 
 ### Preventing file execution in user-accessible directories (Ngăn chặn việc thực thi tệp trong thư mục người dùng có thể truy cập)
 
@@ -169,3 +173,58 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 
 > exploit nó:
 > ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload9.png)
+
+---
+
+### Insufficient blacklisting of dangerous file types(blacklist)
+
+> Một trong những cách để ngăn việc người dùng tải lên những file độc hại thì là dùng blacklist
+> Nhưng blacklist đôi khi vẫn thiếu sót các file để tải lên web shell
+> Ví dụ 1 blacklist gồm các tệp như: `[.php, .js, .java]` còn những file ít được dùng tới như: `[.php5, .shtml, ...]` vẫn được các hacker dùng tới!
+
+#### Overriding the server configuration(Ghi đè file config của server)
+
+> Máy chủ sẽ không thực thi các tệp trừ khi chúng ta config nó thực thi.
+> Ví dụ để máy chủ Apache thực thi các tệp PHP thì dev phải thêm cấu hình như sau:
+> `/etc/apache2/apache2.conf`:
+>
+> ```
+> LoadModule php_module /usr/lib/apache2/modules/libphp.so
+> AddType application/x-httpd-php .php
+> ```
+>
+> Nhiều máy chủ cũng cho phép dev config server từ bên trong các thư mục riêng để ghi đè hoặc thêm các tính năng
+> Ví dụ: Apache server sẽ cấu hình riêng cho các thư mục từ file .htaccess nếu có.
+
+#### Lab: Web shell upload via extension blacklist bypass (bypass blacklist)
+
+> Des: Lab này chứa lỗi hổng upload ảnh. Một số extension file có trong blacklist.
+> Mục tiêu: lấy được content của path `/home/carlost/secret`
+> Đăng nhập tài khoản: `wiener:peter`
+
+**Giao diện ban đầu**
+
+> Cũng giống các labs trước:
+> ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload.png)
+
+> Khi upload file php để exploit thì nó đã dính black list:
+> ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload1.png)
+
+> Dùng file .php5 tuy uploaded nhưng k exploit được
+> ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload2.png)
+
+> Vì server chặn file .php nên ta sẽ ánh xạ file .php sang file khác (Do tự nghĩ), ví dụ như .133t
+> Để làm được thì sẽ phải cấu hình lại file `.htaccess` trên server:
+> Sửa:
+>
+> ```
+> AddType application/x-httpd-php .133t
+> ```
+>
+> Ta dựa vào path `/my-account/avatar` với phương thức POST để sửa
+> Qua Burp History tìm path trên rồi send to Repeater
+> Sửa `Content-Type: text/plain`, `filename: .htaccess`, sửa payload của file `exploit.php` ban đầu thành `AddType application/x-httpd-php .133t` nó sẽ trông như này:
+> ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload3.png)
+
+> Sau đó ta tạo 1 file explout.133t rồi upload lên sẽ exploit được =)))
+> ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload4.png)
