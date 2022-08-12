@@ -3,14 +3,18 @@
 ## Khái niệm
 
 > File upload là khi web server cho phép user upload file mà lên hệ thống mà không có cơ chế xác minh đầy đủ ví dụ như filename, type, size, ...
+>
 > Ví dụ như một chức năng tải ảnh lên server mà không có xác minh đầy đủ hoặc xác minh sai thì các hacker có thể tải lên những tệp độc hại, nguy hiểm.
+>
 > Điều này có thể dẫn tới server có thể bị lỗi RCE.
 
 ## Tác hại
 
 > Khi file đã được upload lên hệ thống (ví dụ như các file .php, .jsp, ...) được thực thi dưới dạng mã, hacker sẽ có chức năng như web shell, và có toàn quyền trên hệ
 > thống.
+>
 > Nếu tệp không được xác thực đúng cách, trùng tên file trong hệ thống. Điều này có thể khiến các file trong hệ thống bị ghi đè.
+>
 > Không đảm bảo được size của file, điều này sẽ dẫn tới cuộc tấn công từ chối dịch vụ ví dụ như DoS (attacker sẽ lấp đầy dung lượng đĩa có sẵn).
 
 ## Các lỗ hổng:
@@ -18,8 +22,11 @@
 ## Exploiting unrestriced file uploads to deploy a web shell (Khai thác file upload không hạn chế để triển khai web shell)
 
 > Tình huống xấu nhất có thể xảy ra là khi một trang web cho phép user tải các tệp script ví dụ như php, java, python . Điều này làm cho việc tạo web shell riêng trên
+>
 > web server trở nên dễ dàng.
+>
 > _web shell là một tập lệnh độc hại cho phép attacker có thể thực hiện các lệnh tùy ý trên máy chủ server từ xa_
+>
 > Nếu tải lên web shell thành công thì attacker có toàn quyền kiểm soát máy chủ. Đồng nghĩa với việc có thể đọc, ghi các file tùy ý...
 
 ```
@@ -29,16 +36,22 @@
 #### Lab: Remote code execute via web shell upload
 
 > Des: Lab này có chứa 1 chức năng để tải ảnh nên nhưng nó không filter bất kì tệp nào khi upload lên.
-> Nhiệm vụ là tải 1 web shell php cơ bản và sử dụng nó để đọc nội dung của file `/home/carlos/secret`. Sau đó submit flag.
-> Có thể đăng nhập bằng tài khoản wiener:peter để upload file.
+>
+> Nhiệm vụ là tải 1 web shell php cơ bản và sử dụng nó để đọc nội dung của file `/home/carlos/secret`.
+> Sau đó submit flag.
+>
+> Có thể đăng nhập bằng tài khoản `wiener:peter` để upload file.
 
 **Giao diện ban đầu**
 ![Giao diện](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload.png)
 
 > Khi login bằng tài khoản được cấp là `wiener:peter` thì qua một giao diện khác có form để thay đổi ảnh
 > ![Avatar](./../asset/file-upload-1-remote-code-execution-via-web-shell-upload1.png)
+>
 > Đề bài yêu cầu lấy nội dung của path `/home/carlos/secret` viết script để exploit nó
+>
 > Giờ thử upload xem có bị filter gì không đã nhé!
+>
 > Đây là script mình dùng:
 
 ```
@@ -81,9 +94,12 @@ GET /example/exploit.php?command=id HTTP/1.1
 
 ### Flawed file type validation - Xác thực loại file không đúng:
 
-> Khi gửi HTML forms, thì browser sẽ gửi data cùng với phương thức POST với `Content-Type:x-www-form-url-encoded`. Nó phù hợp với văn bản đơn giản
+> Khi gửi HTML forms, thì browser sẽ gửi data cùng với phương thức POST với `Content-Type:x-www-form-url-encoded`.
+>
+> Nó phù hợp với văn bản đơn giản
 > như tên, địa chỉ... nhưng nó không phù hợp để gửi 1 lượng lớn dữ liệu nhị phân
 > chẳng hạn như img, pdf, ... Trong case này thì content type đa phần là `multipart/form-data`.
+>
 > Một cách mà các trang web xác thực file upload là qua `Content-Type` xem nó có khớp với `MIME` type không.
 >
 > Ví dụ server chỉ nhận `image/jpeg`, ... đại loại là file img, để bypass qua thì ta có
@@ -92,6 +108,7 @@ GET /example/exploit.php?command=id HTTP/1.1
 #### Lab: Web shell upload via Content-Type restriction bypass (bypass qua Content-Type)
 
 > Des: Lab này chứa một chức năng tải file img dễ bị attack
+>
 > Nó cố gắng ngăn chặn user tải loại file không mong muốn lên server
 >
 > Mục tiêu: Tải web shell php lên để exploit nội dung của path: `/home/carlos/secret`
@@ -117,6 +134,7 @@ GET /example/exploit.php?command=id HTTP/1.1
 ### Preventing file execution in user-accessible directories (Ngăn chặn việc thực thi tệp trong thư mục người dùng có thể truy cập)
 
 > Ta nên chặn các tệp nguy hiểm ngay từ khi nó bắt đầu được up lên. Nhưng tuyến phòng thủ thứ 2 là ngăn máy chủ thực thi tệp.
+>
 > Để phòng thủ thì các máy chủ thường chỉ chạy các tệp có kiểu MIME mà chúng được cấu hình rõ ràng để thực thi. Nếu không thuộc loại MIME được cấu hình thì nó sẽ trả về lỗi.
 
 ```
@@ -132,13 +150,17 @@ Content-Length: 39
 ```
 
 > Loại cấu hình này thường khác nhau giữa các thư mục. Thư mục mà các tệp người dùng tải lên có thể được kiểm soát chặt chẽ hơn so với các thư mục khác ngoài tầm với của người dùng
+>
 > Nếu có thể tải tệp lên một thư mục khác không được cho phép thì máy chủ có thể execute file của bạn
 
 #### Lab: Web shell upload via path traversal(Upload web shell thông qua path traversal)
 
 > Des: Web này chứa một lỗ hổng tải ảnh lên. Máy chủ được cấu hình để ngăn việc execute file do người dùng tải lên.
+>
 > Có thể exploit qua lỗ hổng directory traversal
+>
 > Mục tiêu là lấy được content của path `/home/carlos/secret`
+>
 > Đăng nhập bằng tài khoản: `wiener:peter` để upload file
 
 **Giao diện ban đầu**
@@ -160,6 +182,7 @@ Ta cũng login và upload file lên bình thường:
 Thì bài này có liên quan tới directory traversal nên để exploit nó chắc phải tải nó lên 1 path khác, vì path mà user được tải file nên nó đang kiểm soát chặt chẽ
 
 > Ta thử upload lên path khác ví dụ như: `../` (vào path parent của nó xem sao)
+>
 > Qua lại burp history rồi tìm path `/my-account/avatar` send to repeater
 > ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload4.png)
 
@@ -179,13 +202,17 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 ### Insufficient blacklisting of dangerous file types(blacklist)
 
 > Một trong những cách để ngăn việc người dùng tải lên những file độc hại thì là dùng blacklist
+>
 > Nhưng blacklist đôi khi vẫn thiếu sót các file để tải lên web shell
+>
 > Ví dụ 1 blacklist gồm các tệp như: `[.php, .js, .java]` còn những file ít được dùng tới như: `[.php5, .shtml, ...]` vẫn được các hacker dùng tới!
 
 #### Overriding the server configuration(Ghi đè file config của server)
 
 > Máy chủ sẽ không thực thi các tệp trừ khi chúng ta config nó thực thi.
+>
 > Ví dụ để máy chủ Apache thực thi các tệp PHP thì dev phải thêm cấu hình như sau:
+>
 > `/etc/apache2/apache2.conf`:
 >
 > ```
@@ -194,12 +221,15 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 > ```
 >
 > Nhiều máy chủ cũng cho phép dev config server từ bên trong các thư mục riêng để ghi đè hoặc thêm các tính năng
+>
 > Ví dụ: Apache server sẽ cấu hình riêng cho các thư mục từ file .htaccess nếu có.
 
 #### Lab: Web shell upload via extension blacklist bypass (bypass blacklist)
 
 > Des: Lab này chứa lỗi hổng upload ảnh. Một số extension file có trong blacklist.
+>
 > Mục tiêu: lấy được content của path `/home/carlost/secret`
+>
 > Đăng nhập tài khoản: `wiener:peter`
 
 **Giao diện ban đầu**
@@ -222,7 +252,9 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 > ```
 >
 > Ta dựa vào path `/my-account/avatar` với phương thức POST để sửa
+>
 > Qua Burp History tìm path trên rồi send to Repeater
+>
 > Sửa `Content-Type: text/plain`, `filename: .htaccess`, sửa payload của file `exploit.php` ban đầu thành `AddType application/x-httpd-php .133t` nó sẽ trông như này:
 > ![img](../asset/file-upload-4-remote-code-execution-via-web-shell-upload3.png)
 
@@ -234,7 +266,9 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 ### Obfuscating file extensions (Làm xáo trộn file extension)
 
 > Ngay cả blacklist đầy đủ nhất cũng sẽ bị bỏ qua bởi các kỹ thuật obfuscating cổ điển.
+>
 > Giả sử xác thực có phân biệt chữ hoa chữ thường ví dụ như tệp `exploit.pHp` là 1 tệp `php`
+>
 > Nếu ánh xạ của MIME không phân biệt chữ hoa chữ thường thì b có thể exploit bằng cách này
 >
 > 1. Tệp như: `exploit.php.jpg`
@@ -246,8 +280,10 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 
 #### Lab: Web shell upload via obfuscated file extension
 
-> Des: Lab này bị dính lỗi file upload, dùng tech xáo trộn cổ điển để exploit nó
+> Des: Lab này bị dính lỗi file upload, dùng tech xáo trộn cổ điển để exploit nó.
+>
 > Mục tiêu: lấy content của path `/home/carlos/secret`
+>
 > Đăng nhập tài khoản: `wiener:peter`
 
 **Giao diên ban đầu**
@@ -262,3 +298,44 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 
 > Ta thử dùng Null Byte:
 > `img.php%00.jpg` > ![img](../asset/file-upload-5-remote-code-execution-via-web-shell-upload3.png)
+
+---
+
+#### Flawed validation of the file's contents (Xác thực sai nội dung tệp)
+
+> Thay vì tin tưởng hoàn toàn vào `Content-Type` tại request.
+>
+> Server sẽ an toàn hơn khi xác minh đúng content của tệp có đúng như gì mong đợi
+>
+> In case web có function tải ảnh lên, máy chủ sẽ cố gắng xác định những thuộc tính nhất định như size, ...
+>
+> Nếu upload file `php` thì nó sẽ không ứng với bất kì thuộc tính nào. Do đó server sẽ từ chối
+>
+> Tương tự cùng với 1 số loại tệp luôn chứa một số byte cụ thể ở đầu hoặc cuối
+>
+> Nó có thể đc sử dụng để xác thực một số tệp
+>
+> Ví dụ `JPG` luôn có byte là `FF D8 FF`
+>
+> Sử dụng tools như `ExifTool` để tạo ra 1 tệp `JPEG` chứa mã độc trong metadata
+
+#### Lab: Remote code execution via polyglot web shell upload
+
+> Des: Lab này chứa vul file upload. Mặc dù server có xác thực nhưng vẫn bị lỗi execute server-side
+>
+> Mục tiêu lấy content của path `/home/carlos/secret`
+>
+> Đăng nhập tài khoản `wiener:peter` để exploit
+
+**Giao diện ban đầu**
+![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload.png)
+
+> Upload các file như `.php, .php%00.jpg, .htaccess` đều error
+> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload1.png)
+
+> Dùng tools ExifTool để tạo file php chứa metadata:
+> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload2.png)
+> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload3.png)
+
+> Done:
+> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload4.png)
