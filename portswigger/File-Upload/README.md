@@ -26,7 +26,7 @@
 <?php echo file_get_contents('/path/to/target/file'); ?>
 ```
 
-### Lab: Remote code execute via web shell upload
+#### Lab: Remote code execute via web shell upload
 
 > Des: Lab này có chứa 1 chức năng để tải ảnh nên nhưng nó không filter bất kì tệp nào khi upload lên.
 > Nhiệm vụ là tải 1 web shell php cơ bản và sử dụng nó để đọc nội dung của file `/home/carlos/secret`. Sau đó submit flag.
@@ -87,7 +87,7 @@ GET /example/exploit.php?command=id HTTP/1.1
 > Ví dụ server chỉ nhận `image/jpeg`, ... đại loại là file img, để bypass qua thì ta có
 > thể sử dụng tools như Burp Repeater.
 
-### Lab: Web shell upload via Content-Type restriction bypass (bypass qua Content-Type)
+#### Lab: Web shell upload via Content-Type restriction bypass (bypass qua Content-Type)
 
 > Des: Lab này chứa một chức năng tải file img dễ bị attack
 > Nó cố gắng ngăn chặn user tải loại file không mong muốn lên server
@@ -109,3 +109,63 @@ GET /example/exploit.php?command=id HTTP/1.1
 
 > Bú
 > ![image](../asset/file-upload-2-remote-code-execution-via-web-shell-upload2.png)
+
+### Preventing file execution in user-accessible directories (Ngăn chặn việc thực thi tệp trong thư mục người dùng có thể truy cập)
+
+> Ta nên chặn các tệp nguy hiểm ngay từ khi nó bắt đầu được up lên. Nhưng tuyến phòng thủ thứ 2 là ngăn máy chủ thực thi tệp.
+> Để phòng thủ thì các máy chủ thường chỉ chạy các tệp có kiểu MIME mà chúng được cấu hình rõ ràng để thực thi. Nếu không thuộc loại MIME được cấu hình thì nó sẽ trả về lỗi.
+
+```
+GET /static/exploit.php?command=id HTTP/1.1
+Host: normal-website.com
+
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 39
+
+<?php echo system($_GET['command']); ?>
+```
+
+> Loại cấu hình này thường khác nhau giữa các thư mục. Thư mục mà các tệp người dùng tải lên có thể được kiểm soát chặt chẽ hơn so với các thư mục khác ngoài tầm với của người dùng
+> Nếu có thể tải tệp lên một thư mục khác không được cho phép thì máy chủ có thể execute file của bạn
+
+#### Lab: Web shell upload via path traversal(Upload web shell thông qua path traversal)
+
+> Des: Web này chứa một lỗ hổng tải ảnh lên. Máy chủ được cấu hình để ngăn việc execute file do người dùng tải lên.
+> Có thể exploit qua lỗ hổng directory traversal
+> Mục tiêu là lấy được content của path `/home/carlos/secret`
+> Đăng nhập bằng tài khoản: `wiener:peter` để upload file
+
+**Giao diện ban đầu**
+![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload.png)
+
+Cũng giống như các labs trên
+
+Ta cũng login và upload file lên bình thường:
+
+> Bài này thì nó lại không filter đầu vào, up file gì cũng được =)) nhưng không exploit được
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload1.png)
+
+> Ta có thể thấy là file vẫn được upload lên path này nhưng không exploit được nó
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload2.png)
+
+> Nó chỉ trả về dạng text:
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload3.png)
+
+Thì bài này có liên quan tới directory traversal nên để exploit nó chắc phải tải nó lên 1 path khác, vì path mà user được tải file nên nó đang kiểm soát chặt chẽ
+
+> Ta thử upload lên path khác ví dụ như: `../` (vào path parent của nó xem sao)
+> Qua lại burp history rồi tìm path `/my-account/avatar` send to repeater
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload4.png)
+
+> Đổi ở phần request header: `Content-Disposition: form-data, name="avatar", filename=../exploit.php` sau đó send nó:
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload5.png)
+
+> File đã được upload nhưng không exploit được nó. Tại sao, vì url đã bị encoded kí tự `/` nó đã trở thành: `%2f` ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload6.png) ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload7.png)
+
+> Ta upload lại như sau:
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload8.png)
+
+> exploit nó:
+> ![img](../asset/file-upload-3-remote-code-execution-via-web-shell-upload9.png)
