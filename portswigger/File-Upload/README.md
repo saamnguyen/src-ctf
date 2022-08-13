@@ -379,7 +379,10 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 > ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload3.png)
 
 > Copy phần `POST, GET` để cho vào payload của `Turbo Intruder` (Copy hết phần request http)
-> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload6.png) > ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload4.png)
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload6.png)
+
+> Đoạn này là file `exploit.php` nhé, kh phải `exploitt.php` đou!
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload4.png)
 
 > Attack
 
