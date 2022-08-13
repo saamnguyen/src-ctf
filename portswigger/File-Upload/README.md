@@ -368,3 +368,22 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 
 **Giao diện ban đầu**
 ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload0.png)
+
+> Bài này sử dụng `Turbo Intruder` để exploit nó:
+>
+> Đầu tiên thì install nó:
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload1.png)
+
+> Gửi file `.php` thì nó bị lỗi, nên giờ gửi file `.php.jpg` để send qua `Turbo Intruder` > ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload2.png)
+
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload3.png)
+
+> Copy phần `POST, GET` để cho vào payload của `Turbo Intruder` (Copy hết phần request http)
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload6.png) > ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload4.png)
+
+> Attack
+
+> DONE:
+> ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload5.png)
+
+---
