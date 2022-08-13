@@ -334,8 +334,37 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 > ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload1.png)
 
 > Dùng tools ExifTool để tạo file php chứa metadata:
-> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload2.png)
-> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload3.png)
+> ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload2.png) > ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload3.png)
 
 > Done:
 > ![img](../asset/file-upload-6-remote-code-execution-via-web-shell-upload4.png)
+
+---
+
+#### Exploiting file upload race conditions (Exploit các điều kiện tải lên)
+
+> Giờ các framework ngày càng phát triển nên đã phần nào chống lại được các cuộc attack này
+>
+> Các dev đôi khi thực hiện quá trình xử lí file upload của họ 1 cách độc lập với bất kỳ khuôn khổ nào
+>
+> Điều này khổ chỉ phức tạp, nó còn đưa ra các điều kiện để race conditions cho phép attacker bypass ngay cả những validation mạnh mẽ nhất
+
+> Ví dụ:
+> Một web file upload trực tiếp trên hệ thống chính và xóa file đó 1 lần nếu tệp không vượt qua validation
+>
+> Quá trình này chỉ mất vài mili giấy, nhưng với thời gian ngắn như thế thì tệp đã tồn tại trên server và attacker vẫn có thể execute nó
+>
+> Vul này cực kì tinh vi, khiến chúng khó bị phát hiện trong quá trình kiểm tra trừ khi có thể tìm thấy cách rò rỉ mã nguồn liên quan
+
+#### Lab: Web shell upload via race condition ()
+
+> Level: Expert
+>
+> Des: Lab này chứ vul upload file img. Mặc dù nó có validation mạnh mẽ, những vẫn có thể bypass bằng cách khai thác race condition
+>
+> Mục tiêu: Lấy content của path `/home/carlos/secret`
+>
+> Đăng nhập tài khoản `wiener:peter`
+
+**Giao diện ban đầu**
+![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload0.png)
