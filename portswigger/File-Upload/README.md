@@ -387,3 +387,13 @@ Thì bài này có liên quan tới directory traversal nên để exploit nó c
 > ![img](../asset/file-upload-7-remote-code-execution-via-web-shell-upload5.png)
 
 ---
+
+## Cách ngăn chặn
+
+> - Kiểm tra `file extension` với `whitelist` gồm các thành phần mở rộng thay vì `blacklist` cho các extension bị cấm
+>
+> - Đảm bảo `filename` không contain chuỗi con như `../`
+>
+> - Đổi tên tệp tránh bị ghi đè file
+>
+> - Không tải tệp lên hệ thống vĩnh viễn cho đến khi đã validate
