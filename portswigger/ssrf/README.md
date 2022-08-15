@@ -248,3 +248,40 @@
 
 > Làm theo hướng dẫn :
 > ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-1.png) ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-2.png)
+
+### Blind SSRF vulnerabilities
+
+#### What is blind SSRF?
+
+> `Blind SSRF vul` phát sinh khi một ứng dụng được tạo ra để đưa ra một `HTTP request` tới một `URL` cung cấp, nhưng phản hồi từ `HTTP request` không được `response` của `front-end application`
+
+#### Tác động (What is the impact of blind SSRF vulnerabilities?)
+
+> Thấp hơn so với `SSRF` được đẩy từ thông báo vì tính chất 1 chiều
+>
+> Chúng không thể bị khai thác một cách tầm thường để lấy dữ liệu sensitive từ các hệ thống `back-end`. Nhưng 1 số tình huống sẽ bị `rce`
+
+#### Cách tìm và khai thác (How to find and exploit blind SSRF vulnerabilities)
+
+> Cách để tìm ra `Blind SSRF` là sử dụng các kỹ thuật `out-of-band` (OAST) techniques.
+>
+> Điều này liên quan tới việc cố gắng kích hoạt 1 `HTTP Request` bên ngoài mà mình kiểm soát và giám sát tương tác network với hệ thống
+>
+> Có thể sử dụng `Burp Collaborator` để exploit hoặc các ứng dụng khác
+
+#### Lab: Blind SSRF with out-of-band detection
+
+> Des: Lab này sử dụng `fetch URL` được `Refere header` khi sản phẩm được load
+>
+> Để solve thì dùng `Burp Collaborator`
+
+> path:
+> ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-1.png)
+
+> Sử dụng `Burp Colla`:
+> ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-2.png)
+
+> Sau khi copy sẽ paste vào `Referer`:
+> ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-3.png)
+
+> `Pull now` ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-4.png)
