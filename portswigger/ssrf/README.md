@@ -119,3 +119,55 @@
 
 > DONE:
 > ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-5.png) ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-6.png)
+
+## Circumventing common SSRF defenses (Phá vỡ hệ thống phòng thủ SSRF)
+
+### SSRF with blacklist-based input filters
+
+> Một số ứng dụng block input chứa hostname như `127.0.0.1` và localhost hoặc các URL nhạy cảm như `/admin`
+>
+> Với case này thì có thể phá vỡ filter bằng các tech khác nhau:
+>
+> 1. Sử dụng IP representation thay thế của `127.0.0.1` ví dụ như: `2130706433`, `017700000001` hoặc `127.1`
+> 2. Đăng kí tên miền riêng của `127.0.0.1` chẳng hạn như đăng kí `spoofed.burpcollaborator.net`
+> 3. Làm xáo trộn các chuỗi bị block bằng cách sử dụng mã URL hoặc biến chữ hoa thành thường
+
+#### Lab: SSRF with blacklist-based input filter
+
+> Des: Lab này có tính năng check sản phẩm, để solve đổi URL thành `http://localhost/admin` và delete user `carlos`
+>
+> Dev đã triển khai hệ thống phòng thủ SSRF yếu, cần vượt qua
+
+**Giao diện ban đầu**
+![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-0.png)
+
+> Thử test thì nó đã bị chặn:
+> ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-1.png)
+
+> Vì nó đã filter nên phải bypass nó, tìm được cái này:
+> ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-6.png)
+
+> Dùng luôn =)):
+> ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-2.png)
+> Vẫn không được =((, đọc lại thì bài nó triển khai 2 cái def
+
+> Chắc nó bị block strings, double-url encoding
+
+> Double Endcoding là một kỹ thuật bao gồm mã hóa các tham số của người dùng 2 lần ở dạng hex để bypass qua security control hoặc gây ra các hành vi không mong muốn
+>
+> Điều này có thể xảy ra vì server web chấp nhận và xử lí các yêu cầu của client ở nhiều dạng encode
+>
+> Attacker có thể đưa double encoding vào pathnames hoặc query string để bypass qua authentication và security filter
+>
+> Ví dụ:
+>
+> - hex encoding: `../` -> `%2E%2E%2F`
+> - then encoding: `%` -> `%25`
+> - double encoding: `../` -> `%252E%252E%252F`
+
+> -> path `http://127.1/admin` => `http://127.1/%2561dmin`
+>
+> Vì hex của `a` là `61`, double nó lên sẽ là `%2561`
+
+> DONE
+> ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-3.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-4.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-5.png)
