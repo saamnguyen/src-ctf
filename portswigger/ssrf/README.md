@@ -171,3 +171,34 @@
 
 > DONE
 > ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-3.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-4.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-5.png)
+
+#### SSRF with whitelist-based input filters
+
+> Một số ứng dụng chỉ cho phép input phù hợp, bắt đầu hoặc chứa trong whitelist
+>
+> Case này, đoi khi có thể phá vớ filter bằng cách exploit sự mâu thuẫn trong phân tích cú pháp
+>
+> - Có thể nhúng thông tin đăng nhaajpa trức tên hostname, sử dụng ký tự `@` ví dụ: `https://expected-host@evil-host`
+> - Có thể sử dụng `#` để phân đoạn URL ví dụ: `https://evil-host#expected-host`
+> - Sử dụng leverage đặp tên cho `DNS` ví dụ: `https://expected-host.evil-host`
+> - Sử dụng ký tự `URL-encode` để gây nhầm lẫn với `URL-parsing`
+
+#### Lab: SSRF with whitelist-based input filter
+
+> Des: Lab này có tính năng kiểm tra sản phẩm, để solve đổi URL thành `http://localhost/admin` và xóa `carlos`
+>
+> Dev đã deployed tính năng `anti-ssrf`, cần bypass
+
+**Giao diện ban đầu**
+![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-0.png)
+
+> Test:
+> ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-1.png)
+
+> Trường hợp 1 trên docs: `https://expected-host@evil-host` > ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-2.png)
+> -> Không thể connect
+
+> Sang case 2: `https://evil-host#expected-host` ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-3.png)
+
+> OK, thử double-encode:
+> ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-4.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-5.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-6.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-7.png)
