@@ -82,3 +82,40 @@
 
 > Done:
 > ![img](../asset/ssrf-1-basic-ssrf-against-the-local-server-6.png) ![img](../asset/ssrf-1-basic-ssrf-against-the-local-server-7.png)
+
+### SSRF attacks against other back-end systems (SSRF chống lại hệ thống backend)
+
+> Các trust relationship thường được phát sinh với giả mạo từ phía server là nới server app có thể tương tác với các hệ thống backend khác mà user không được quyền truy cập trực tiếp
+>
+> Các hệ thống này thường có địa chỉ IP riêng không được định tuyến.
+>
+> Ở ví dụ trước, giả sử giao diện quản trị tại URL backend: `http://192.168.0.68/admin` thì attacker có thể khai thác SSRF để exploit:
+>
+> ```
+> POST /product/stock HTTP/1.0
+> Content-Type: application/x-www-form-urlencoded
+> Content-Length: 118
+>
+> stockApi=http://192.168.0.68/admin
+> ```
+
+#### Lab: Basic SSRF against another back-end system
+
+> Des: Lab này có tình năng kiểm tra sản phẩm xem có còn hay không, để solve thì quét tại IP `192.168.0.x` với path là `/admin`
+
+**Giao diện ban đầu**
+![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-0.png)
+
+> Dùng Burp Suite để chặn, bắt request:
+> ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-1.png)
+
+> Send nó qua Intruder và chỉnh payload:
+> ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-2.png)
+
+> ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-3.png)
+
+> Sau đó attack và thấy Status là `200` thì lấy nó, chứng tỏ IP đó đúng:
+> ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-4.png)
+
+> DONE:
+> ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-5.png) ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-6.png)
