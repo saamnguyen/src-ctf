@@ -83,6 +83,8 @@
 > Done:
 > ![img](../asset/ssrf-1-basic-ssrf-against-the-local-server-6.png) ![img](../asset/ssrf-1-basic-ssrf-against-the-local-server-7.png)
 
+---
+
 ### SSRF attacks against other back-end systems (SSRF chống lại hệ thống backend)
 
 > Các trust relationship thường được phát sinh với giả mạo từ phía server là nới server app có thể tương tác với các hệ thống backend khác mà user không được quyền truy cập trực tiếp
@@ -119,6 +121,8 @@
 
 > DONE:
 > ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-5.png) ![img](../asset/ssrf-2-Basic-SSRF-against-another-back-end-system-6.png)
+
+---
 
 ## Circumventing common SSRF defenses (Phá vỡ hệ thống phòng thủ SSRF)
 
@@ -172,6 +176,8 @@
 > DONE
 > ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-3.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-4.png) ![img](../asset/ssrf-3-SSRF-with-blacklist-based-input-filter-5.png)
 
+---
+
 #### SSRF with whitelist-based input filters
 
 > Một số ứng dụng chỉ cho phép input phù hợp, bắt đầu hoặc chứa trong whitelist
@@ -202,6 +208,8 @@
 
 > OK, thử double-encode:
 > ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-4.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-5.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-6.png) ![img](../asset/ssrf-4-SSRF-with-whitelist-based-input-filter-7.png)
+
+---
 
 ### Bypassing SSRF filters via open redirection
 
@@ -249,6 +257,8 @@
 > Làm theo hướng dẫn :
 > ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-1.png) ![img](../asset/ssrf-5-SSRF-with-filter-bypass-via-open-redirection-vulnerability-2.png)
 
+---
+
 ### Blind SSRF vulnerabilities
 
 #### What is blind SSRF?
@@ -261,6 +271,8 @@
 >
 > Chúng không thể bị khai thác một cách tầm thường để lấy dữ liệu sensitive từ các hệ thống `back-end`. Nhưng 1 số tình huống sẽ bị `rce`
 
+---
+
 #### Cách tìm và khai thác (How to find and exploit blind SSRF vulnerabilities)
 
 > Cách để tìm ra `Blind SSRF` là sử dụng các kỹ thuật `out-of-band` (OAST) techniques.
@@ -268,6 +280,8 @@
 > Điều này liên quan tới việc cố gắng kích hoạt 1 `HTTP Request` bên ngoài mà mình kiểm soát và giám sát tương tác network với hệ thống
 >
 > Có thể sử dụng `Burp Collaborator` để exploit hoặc các ứng dụng khác
+
+---
 
 #### Lab: Blind SSRF with out-of-band detection
 
@@ -285,3 +299,61 @@
 > ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-3.png)
 
 > `Pull now` ![img](../asset/ssrf-6-Blind-SSRF-with-out-of-band-detection-4.png)
+
+> Đơn giản chỉ cần xác định một `vul Blind SSRF` có thể kích hoạt `out-of-band HTTP`, bản thân nó cũng không cung cấp một tuyến đường dẫn tới khả năng exploit
+>
+> Vì không thể xem response từ `back-end request`
+>
+> Tuy nhiên vẫn có thể tận dụng các vul bảo mật khác trên máy chủ or hệ thống khác
+>
+> Có thể scan `IP address`, gửi các payload được thiết kế để detect các vul lớn
+
+#### Lab: Blind SSRF with Shellshock exploitation
+
+> Des: Site này chứa phần mềm phân tích fetch URL đc chỉ định `Referer` header
+>
+> Để solve thì dùng `Blind SSRF` để exploit. IP: `192.168.0.x:8080`, dùng payload `ShellShock` để lấy tên của OS user
+
+> Đầu tiên thì cài thêm `Collaborator EveryWhere`:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-0.png)
+
+> Lấy path của lab rồi `add to scope` để nó quét lỗi:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-1.png)
+
+> Chuyển sang `off` để không chặn `request` để check các button có thể:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-2.png) ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-3.png) ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-4.png) ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-5.png)
+
+> Dùng `Burp Collaborator client`:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-6.png)
+
+> Chặn `request` rồi `send to Intruder`:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-7.png)
+
+> Sửa `payload`:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-8.png)
+
+> Đề bảo tìm `name` của tên `OS-user`:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-9.png)
+
+> DONE:
+> ![img](../asset/ssrf-7-Blind-SSRF-with-Shellshock-exploitation-final.png)
+
+> Một cách `exploit blind SSRF` khác là khiến app kết nối với system dưới sự kiểm soát của `hacker` và `response` mã độc cho `client` connect.
+>
+> Nếu có thể exploit vul nghiêm trọng của `client` trong quá trình triển khai `server HTTP`, thì có thể thực hiện `rce` trên cơ sở hạ tầng `app`
+
+---
+
+### Finding hidden attack surface for SSRF vulnerabilities (Tìm bề mặt tấn công ẩn cho các lỗ hổng SSRF)
+
+> Nhiều vul giả mạo yêu cầu server tương đối dễ phát hiện vì lưu lượng truy cập thông thường của ứng dụng liên quan tới các tham số chứa đầy đủ `URL`. Ví dụ khác về `SSRF` khó xác định
+
+> 1. Partial URLs in requests (URL một phần trong yêu cầu):
+>
+>    Đôi khi app chỉ đặt tên server hoặc 1 phần của đường dẫn `URL` vào các `param` yêu cầu. Giá trị đã gửi sau đó sẽ kết hợp với phía `server` để tạo thành `URL` đầy đủ được yêu cầu.
+>
+> 2. URLs within data formats:
+>    1 số app truyền dữ liệu ở dạng có đặc điểm kỹ thuật bao gồm `URLs` có thể được trình phân tích cú pháp dữ liệu yêu cầu cho định dạng. 1 dữ liệu điển hình là `XML`. Nó được sử dụng để truyền dữ liệu web từ `client` -> `server`. Nhưng có thể bị chèn `XXE`, do đó bị `SSRF` thông qua `XXE`
+>
+> 3. SSRF via the Referer header
+>    1 số app sử dụng phần mềm phân tích server để `tracking` khách truy cập. app này thường ghi lại `Referer` header tại yêu cầu. Thường thì phần mềm phân tích sẽ được truy cập bất kì `URLs` nào của bên thứ 3 trong `Referer` header. Do đó nó dễ bị `SSRF`
