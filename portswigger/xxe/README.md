@@ -83,3 +83,38 @@
 
 > DONE:
 > ![img](../asset/xxe-Exploiting-XXE-using-external-entities-to-retrieve-files-3.png)
+
+---
+
+## Exploiting XXE to perform SSRF attacks
+
+> Ngoài việc truy xuất dữ liệu nhạy cảm, tác động khác của `XXE` là chúng có thể được sử dụng để thực hiện `SSRF`.
+>
+> Để thực hiện `XXE` cùng với `SSRF`, cần 1 `entity` bên ngoài bằng cách sửa dụng `URL` mà bạn muốn nhắm mục tiêu và sử dụng `entity` đã xác định trong 1 giá trị dữ liệu
+>
+> Ví dụ:
+>
+> ```
+> <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
+> ```
+
+#### Lab: Exploiting XXE to perform SSRF attacks
+
+> Tag: Apprentice
+>
+> Des: Lab này sử dụng `XML` để kiểm tra `stock`, `server` đang chạy `EC2 metadata endpoint` : `http://169.254.169.254` để truy xuất dữ liệu.
+>
+> Để solve hãy exploit `XXE` cùng với `SSRF` để lấy được khóa bí mật `AIM`
+
+**Giao diện**
+
+> ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-0.png)
+
+> Chặn bắt `request stock`:
+> ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-1.png)
+
+> Vì điểm cuối (endpoint) được truy xuất nên lấy `endpoint` được trả về rồi cho vào path send tiếp:
+> ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-2.png) ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-3.png) ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-4.png) ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-5.png)
+
+> DONE:
+> ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-6.png) ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-7.png)
