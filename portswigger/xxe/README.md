@@ -442,3 +442,38 @@
 > ```
 
 > ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-2.png) ![img](../asset/xxe-Exploiting-XXE-to-retrieve-data-by-repurposing-a-local-DTD-3.png)
+
+## Finding hidden attack surface for XXE injection
+
+> Cách tấn công XXE injection có nhiều case, vì lưu lượng HTTP request của ứng dụng bao gồm các data ở định dạng XML.
+>
+> Tuy nhiên có những trường hợp không cần XML
+
+### XInclude attacks
+
+> Một số ứng dụng nhận data từ client, nhúng dữ liệu đó ở server vào XML, sau đó phân tích
+>
+> Ví dụ điều này xảy ra khi dữ liệu cho client được đặt vào 1 request SOAP Backend , sau đó được xử lý bởi dịch vụ SOAP bổ trợ
+
+> Trong trường hợp này thì không thể tấn công bằng XXE cổ điển, vì không kiểm soát toàn bộ XML, do đó không thể xác định hoặc thay đổi DOCTYPE
+>
+> Tuy nhiên vẫn có thể sử dụng XInclude để thay đổi
+>
+> XInclude là 1 XML specification cho phép 1 XML docs xây dựng từ các sub-docs
+>
+> Thực hiện cuộc attack XInclude trong bất kỳ giá trị nào trong XML docs, do đó có thể thực hiện các tình huống mà chỉ kiểm soát 1 mục dữ liệu duy nhất được đặt trong XML docs phía server
+
+> Thực hiện:
+>
+> Cần tham chiếu tới XInclude và cung cấp path
+>
+> ```
+> <foo xmlns:xi="http://www.w3.org/2001/XInclude">
+> <xi:include parse="text" href="file:///etc/passwd"/></foo>
+> ```
+
+#### Lab: Exploiting XInclude to retrieve files
+
+> Tag: Practitioner
+>
+> Des: Chứa tính năng check stock, không kiểm soát hết được XML nên không thể xác định DTD để khởi chạy XXE cổ điển. Chèn XInclue để truy xuất path: /etc/passwd
