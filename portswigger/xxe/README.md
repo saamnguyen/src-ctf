@@ -534,3 +534,7 @@
 ## Phòng chống
 
 > Hầu hết XXE phát sinh là do lib XML Parsing của các ứng dụng hỗ trợ các tính năng nguy hiểm mà ứng dụng khôn cần hoặc không có ý định sử dụng.
+>
+> Cách tốt nhất là vô hiệu hóa các tính năng đó
+>
+> Vô hiệu hóa các tính năng phân giải thực thể và vô hiệu hóa hỗ trợ cho XInclude là đủ. Điều này có thể thực hiện thông qua các tùy chọn cấu hình hoặc ghi đè hành vi mặc định của program
