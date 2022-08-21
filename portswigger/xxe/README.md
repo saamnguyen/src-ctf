@@ -520,3 +520,17 @@
 
 > Post thành công thì flag nằm ở ảnh của user mình dùng để post comment:
 > ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-3.png) ![img](../asset/xxe-Exploiting-XXE-via-image-file-upload-4.png)
+
+## Tìm và kiểm tra XXE
+
+> Phần lớn XXE có thể tìm thấy bằng scanner của Burp Suite
+>
+> Kiểm tra thủ công:
+>
+> - Kiểm tra khả năng truy xuất tệp bằng các xác định 1 entity
+> - Kiểm tra `Blind XXE` bằng cách xác định 1 entity bên ngoài dựa trên URL của 1 server hacker kiểm soát ví dụ như `Burp Collaborator`
+> - Kiểm tra xem có dễ đưa `XML` do không phải người dùng cung cấp bằng cách sử dụng `XInclude`
+
+## Phòng chống
+
+> Hầu hết XXE phát sinh là do lib XML Parsing của các ứng dụng hỗ trợ các tính năng nguy hiểm mà ứng dụng khôn cần hoặc không có ý định sử dụng.
