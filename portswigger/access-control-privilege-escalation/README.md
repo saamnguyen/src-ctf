@@ -102,3 +102,43 @@
 
 > path được dấu tại trang chủ, `view source` là thấy `script`:
 > ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-0.png) ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-1.png) ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-2.png)
+
+---
+
+#### Parameter-based access control methods
+
+> Một số ứng dụng xác định ủy quyền truy cập hoặc vai trò của user khi login, sau đó lưu trữ thông tin này ở vị trí user có thể kiểm soát.
+>
+> Chẳng hạn như hidden field, cookie, tham số
+>
+> Ví dụ:
+>
+> ```
+> https://insecure-website.com/login/home.jsp?admin=true
+> https://insecure-website.com/login/home.jsp?role=1
+> ```
+
+> Như này là k an toàn, có thể sửa giá trị
+
+#### Lab: User role controlled by request parameter
+
+> Des: Chứa admin panel `/admin`. Bảng này xác định admin sử dụng cookie. Xóa carlos
+>
+> Dùng tài khoản: `wiener:peter`
+
+> Đăng nhập tài khoản đã cho rồi chỉnh sửa cookie -> true:
+> ![img](../asset/access-control-3-User-role-controlled-by-request-parameter-0.png) ![img](../asset/access-control-3-User-role-controlled-by-request-parameter-1.png)
+
+---
+
+#### Lab: User role can be modified in user profile
+
+> Des: Chứa admin panel `/admin`. Sửa vai trò với user là 2.
+>
+> Đăng nhập với tài khoản `wiener:peter`
+
+> Dùng tài khoản đã cho vào thay đổi email:
+> ![img](../asset/access-control-4-User-role-can-be-modified-in-user-profile-0.png)
+
+> `roleid`=1 thì không thấy gì, đổi sang 2 thì về lại web thì solve được
+> ![img](../asset/access-control-4-User-role-can-be-modified-in-user-profile-1.png) ![img](../asset/access-control-4-User-role-can-be-modified-in-user-profile-3.png)
