@@ -66,3 +66,39 @@
 
 > Làm theo nó:
 > ![img](../asset/access-control-1-Unprotected-admin-functionality-1.png) ![img](../asset/access-control-1-Unprotected-admin-functionality-2.png)
+
+---
+
+> Một số trường hợp, chức năng nhạy cảm không được bảo vệ mạnh mẽ mà được che dấu bằng cách cung cấp cho nó 1 URL ít được dự đoán.
+>
+> Ví dụ:
+>
+> ```
+> https://insecure-website.com/administrator-panel-yb556
+> ```
+
+> Attacker không thể đoán được trực tiếp điều này. Tuy nhiên ứng dụng vẫn có thể làm rò rỉ URL cho user.
+>
+> Ví dụ có thể tiết lộ tỏng JS tạo giao diện người dùng dựa trên vai trò của người dùng
+
+> ```
+> <script>
+> var isAdmin = false;
+> if (isAdmin) {
+> 	...
+> 	var adminPanelTag = document.createElement('a');
+> 	adminPanelTag.setAttribute('https://insecure-website.com/administrator-panel-yb556');
+> 	adminPanelTag.innerText = 'Admin panel';
+> 	...
+> }
+> </script>
+> ```
+
+> Tệp lệnh này thêm liên kết giao diện người dùng nếu họ là admin. Tuy nhiên tập lệnh chứa URL hiển thị tất cả người dùng bất kể vai trò của họ
+
+#### Lab: Unprotected admin functionality with unpredictable URL
+
+> Des: `admin panel` không được bảo vệ. Nó nằm ở vị trí không thể đoán nhưng vị trí được tiết lộ ở đâu đó trong app. Xóa carlos
+
+> path được dấu tại trang chủ, `view source` là thấy `script`:
+> ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-0.png) ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-1.png) ![img](../asset/access-control-2-Unprotected-admin--functionality-with-unpredictable-URL-2.png)
