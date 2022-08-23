@@ -215,3 +215,28 @@
 
 > Dùng GET, sửa thành GEt sẽ k được, phải dùng `change request method`:
 > ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-6.png) ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-7.png)
+
+### Horizontal privilege escalation
+
+> Thông thường, cuộc tấn công leo thang đặc quyền theo chiều ngang có thể chuyển thành cuộc tấn công leo thang độc quyền theo chiều dọc. Làm ảnh hưởng đến người dùng có đặc quyền cao hơn
+>
+> Ví du: Leo thang đặc quyền ngang có thể cho phép kẻ tấn công đặt lại hoặc lấy passwd của user khác
+>
+> Ví dụ: attacker có thể truy cập vào tài khoản khác bằng kỹ thuật giả mạo tham số:
+>
+> ```
+> https://insecure-website.com/myaccount?id=123
+> ```
+
+#### Lab: User ID controlled by request parameter
+
+> Des: Lab chứa lỗi hổng leo thang đặc quyền chiều ngang trên tài khoản người dùng. Solve thì lấy khóa API của carlos rồi submit. Dùng tài khoản `wiener:peter` để login
+
+**Giao diện**
+![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-0.png)
+
+> Đăng nhập với tài khoản được cấp rồi vào `My Account` chặn request:
+> ![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-1.png)
+
+> Sửa thành `carlos` rồi submit flag:
+> ![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-2.png) ![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-3.png)
