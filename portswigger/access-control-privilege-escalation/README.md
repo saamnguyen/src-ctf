@@ -142,3 +142,45 @@
 
 > `roleid`=1 thì không thấy gì, đổi sang 2 thì về lại web thì solve được
 > ![img](../asset/access-control-4-User-role-can-be-modified-in-user-profile-1.png) ![img](../asset/access-control-4-User-role-can-be-modified-in-user-profile-3.png)
+
+---
+
+#### Broken access control resulting from platform misconfiguration
+
+> Một số ứng dụng thực thi các `access control` ở platform bằng cách hạn chế quyền truy cập vào URL và `HTTP methods` dựa trên vai trò của người dùng
+>
+> Ví dụ:
+>
+> ```
+> DENY: POST, /admin/deleteUser, managers
+> ```
+
+> Quy tắc này sẽ từ chối quyền truy cập vào `POST method` trên UR `/admin/deleteUser` đối với người dùng trong nhóm `manager`
+>
+> Nhiều thứ có thể bị trục trặc nên có thể bypass qua:
+
+> Một số framework hỗ trợ nhiều `HTTP header` khác nhau, có thể sử dụng để ghi đè URL trong 1 request
+>
+> Ví dụ như `X-Original-URL` và `X-Rewriter-URL`
+>
+> ```
+> POST / HTTP/1.1
+> X-Original-URL: /admin/deleteUser
+> ...
+> ```
+
+#### Lab: URL-based access control can be circumvented
+
+> Des: Web có `admin panel` chưa được xác thực tại `/admin` nhưng người dùng đã bị chặn ở bên ngoài. Tuy nhiên, backend hỗ trợ `X-Original-URL`
+
+> ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-0.png)
+
+> Thêm `X-Original-URL: /invalid` :
+> ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-2.png)
+
+> Đổi sang `/admin`:
+> ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-1.png) ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-3.png)
+
+> Xóa: ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-4.png) ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-5.png)
+
+---
