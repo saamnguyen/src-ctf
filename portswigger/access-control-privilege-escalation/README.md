@@ -240,3 +240,29 @@
 
 > Sửa thành `carlos` rồi submit flag:
 > ![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-2.png) ![img](../asset/access-control-7-User-ID-controlled-by-request-parameter-3.png)
+
+---
+
+> Trong một số ứng dụng, tham số có thể exploit không có giá trị dự đoán được.
+>
+> Ví dụ: thay vì 1 số tăng dần, ứng dụng có thể sử dụng số nhận dạng duy nhất trên toàn cầu (GUIDs) để xác định user. Ở đây attcaker có thể không đoán được, tuy nhiên GUID của user khác có thể được tiết lộ ở nơi khác trên ứng dụng mà user tham chiếu tới. Ví dụ như tin nhắn hoặc review của user
+
+#### Lab: User ID controlled by request parameter, with unpredictable user IDs
+
+> Des: Lab chứa lỗ hổng leo thang đặc quyền chiều ngang trên tài khoản người dùng, nhưng xác định người dùng bằng GUID. Để solve, tìm GUID của carlos sau đó gửi khóa API. Lấy tài khoản `wiener:peter` để login
+
+**Giao diện**
+
+> Với quả id kia thì chịu
+> ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-0.png)
+
+> Tìm post của user carlos:
+> ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-1.png)
+
+> Bắt request để lấy GUID:
+> ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-2.png)
+
+> Qua `My Account` của wiener rồi đổi thôi:
+> ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-3.png) ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-4.png)
+
+---
