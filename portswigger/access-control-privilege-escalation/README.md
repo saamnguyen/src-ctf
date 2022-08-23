@@ -184,3 +184,34 @@
 > Xóa: ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-4.png) ![img](../asset/access-control-5-URL-based-access-control-can-be-circumvented-5.png)
 
 ---
+
+> Cuộc tấn công có thể phát sinh liên quan đến phương thức HTTP được sử dụng trong request
+>
+> Bên frontend hạn chế quyền truy cập dựa trên URL và HTTP method
+>
+> Nếu attacker có thể sử dụng phương thức GET (hoặc các phương thức khác) để thực hiện các hành động trên URL bị hạn chế.
+
+#### Lab: Method-based access control can be circumvented
+
+> Des: Lab này triển khai `access control` 1 phần trên HTTP methods của request. Đăng nhập admin với tài khoản `adminnistrator:admin`. Để solve đăng nhập với tài khoản `wiener:peter` rồi leo thang đặc quyền lên admin
+
+**Giao diện ban đầu**
+![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-0.png)
+
+> Đăng nhập và vào với quyền admin:
+> ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-1.png)
+
+> Vào adminpanel chặn bắt hành vi update quyền rồi gửi sang repeater:
+> ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-2.png)
+
+> Dùng fire fox private để login với tài khoản user:
+> ![ig](../asset/access-control-6-Method-based-access-control-can-be-circumvented-3.png)
+
+> Copy cookie của user rồi chuyển qua repeater của admin thay cookie và user:
+> ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-4.png)
+
+> Chuyến sang POSTX method:
+> ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-5.png)
+
+> Dùng GET, sửa thành GEt sẽ k được, phải dùng `change request method`:
+> ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-6.png) ![img](../asset/access-control-6-Method-based-access-control-can-be-circumvented-7.png)
