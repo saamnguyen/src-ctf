@@ -266,3 +266,12 @@
 > ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-3.png) ![img](../asset/access-control-8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs-4.png)
 
 ---
+
+> Một số trường hợp, ứng dụng không phát hiện user nào không được phép tủy cập tài nguyên và trả về chuyển hướng đến trang login. Tuy nhiên, phản hồi chứa chuyển hướng vẫn có thể bao gồm 1 số dữ liệu nhạy cảm của user
+
+#### Lab: User ID controlled by request parameter with data leakage in redirect
+
+> Des: Lab chứa lỗ hổng access control chứa thông tin nhạy cảm bị rò rỉ trong redirect. Để solve lấy khóa API của carlos rồi submit. Dùng tài khoản `wiener:peter` để login
+
+> Bài này đăng nhập với user được cấp rồi vào `my account` chặn rồi đổi id thành carlos là xong:
+> ![img](../asset/access-control-9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect-0.png) ![img](../asset/access-control-9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect-1.png)
