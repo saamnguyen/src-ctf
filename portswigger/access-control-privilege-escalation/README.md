@@ -275,3 +275,36 @@
 
 > Bài này đăng nhập với user được cấp rồi vào `my account` chặn rồi đổi id thành carlos là xong:
 > ![img](../asset/access-control-9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect-0.png) ![img](../asset/access-control-9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect-1.png)
+
+---
+
+### Horizontal to vertical privilege escalation
+
+> Thông thường một cuộc attacker leo thang đặc quyền theo chiều ngang có thể chuyển thành tấn công theo chiều dọc bằng cách làm ảnh hưởng tới người dùng có đặc quyền cao hơn
+>
+> Ví dụ: Leo thang đặc quyền chiều ngang có thể cho phép attacker đặt hoặc lấy passwd của người dùng khác. Nếu attacker nhắm tới admin và xâm phạm thì attacker có quyền quản trị và thực hiện leo thang đặc quyền theo chiều dọc
+
+> Ví dụ:
+> Attacker có thể quyền truy cập vào tk người dùng khác bằng cách sử dụng kỹ thuật giả mạo tham số cho việc leo thang đặc quyền theo chiều ngang
+>
+> ```
+> https://insecure-website.com/myaccount?id=456
+> ```
+
+> Nếu mục tiêu là admin, attacker có thể truy cập và có quyền quản trị. Trang có thể tiết lộ passwd của admin và cung cấp phương tiện thay đổi hoặc có quyền cung cấp truy cập trực tiếp vào chức năng đặc quyền
+
+#### Lab: User ID controlled by request parameter with password disclosure
+
+> Des: Lab chứa trang tài khoản chứa mật khẩu người dùng hiện tại của người dùng hiện tại. Để solve hãy truy xuất tài khoản của admin sau đó xóa tài khoản carlos. Dùng tài khoản `wiener:peter` để login
+
+> Login với tài khoản được cho:
+> ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-0.png)
+
+> Check path `My Account`:
+> ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-1.png)
+
+> Có thể giả mạo param -> administrator:
+> ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-2.png) ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-3.png)
+
+> -> có passwd
+> ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-4.png) ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-5.png)
