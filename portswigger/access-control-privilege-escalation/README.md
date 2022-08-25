@@ -308,3 +308,44 @@
 
 > -> có passwd
 > ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-4.png) ![img](../asset/access-control-10-User-ID-controlled-by-request-parameter-with-password-disclosure-5.png)
+
+---
+
+### Insecure direct object references (IDOR)?
+
+> `IDOR` là 1 loại vul access control phát sinh khi ứng dụng sử dụng input cho user cung cấp để truy cập trực tiếp vào các object
+>
+> `IDOR` đã được phổ biến khi nó xuất hiện trong top 10 OWASP 2007
+
+> `IDOR` ví dụ:
+>
+> Có nhiều ví dụ về IDOR do người dùng kiểm soát sử dụng để truy cập trực tiếp vào tài nguyên or chức năng
+
+#### IDOR vulnerability with direct reference to database objects (IDOR với tham chiếu trực tiếp đến các obj CSDL)
+
+> Xem xét URL sau:
+>
+> ```
+> https://insecure-website.com/customer_account?customer_number=132355
+> ```
+
+> Ở đây khách hàng được sử dụng `cusstomer_account` làm bản ghi để truy vấn được thực hiện trên CSDL phía sau.
+>
+> Nếu không có biện pháp kiểm soát, attacker có thể chỉ cần sửa đổi giá trị `cusomers_numbers`
+
+#### IDOR vulnerability with direct reference to static files (IDOR với tham chiếu trực tiếp tới file)
+
+> IDOR phát sinh khi các tài nguyên nhạy cảm nằm trong các static file trên system. Ví dụ 1 trang web lưu các bản tin nhắn trò truyện vào bằng đĩa sử dụng tên tệp tăng dần, cho phép người dùng truy xuất nó
+>
+> ```
+> https://insecure-website.com/static/12144.txt
+> ```
+
+> Tình huốn này, attacker có thể chỉ cần sửa đổi tên tệp để truy xuất bản ghi cho người dùng khác tạo.
+
+#### Lab: Insecure direct object references
+
+> Des: Lab lưu trữ nhật ký trò truyện của người dùng trực tiếp trên hệ thống tên, truy xuất bằng URL. Solve tìm passwd của carlos và đăng nhập vào tk
+
+> Khi vào lab, ta click vào live chat, roi click vao `view tramscrip` để down file chat về. Sửa nó thành `1.txt`. Ban đầu minh không biết đâu. Thử đi thử lại thì lúc start lab thì nó chi cho down file `2.txt` > đoo len:
+> ![img](../asset/access-control-11-Insecure-direct-object-references-0.png) ![img](../asset/access-control-11-Insecure-direct-object-references-1.png) ![img](../asset/access-control-11-Insecure-direct-object-references-2.png)
