@@ -382,3 +382,35 @@
 
 > Đổi nó:
 > ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-5.png)
+
+---
+
+### Referer-based access control
+
+> Một số trang web kiểm soát người dùng bằng `referer` header trong `http method`. `referer header` phải được thêm vào request
+>
+> Ví dụ:Ứng dụng kiểm soát với path `/admin`. Nhưng đối với path `/admin/deleteUser` chỉ kiểm tra `referer header`
+
+#### Lab: Referer-based access control
+
+> Des: Lab này access control vào 1 số chức năng admin dựa trên `referer header`. Log với tài khoản `admininistrator:admin`
+>
+> Đăng nhập với tài khoản `wiener:peter` và thăng cấp lên admin
+
+> Bài này chỉ cần đổi cookie:
+> ![img](../asset/access-control-13-Referer-based-access-control-0.png) ![img](../asset/access-control-13-Referer-based-access-control-1.png) ![img](../asset/access-control-13-Referer-based-access-control-2.png)
+
+---
+
+### Location-based access control
+
+> Một số web thực thi các kiểm soát dựa vào vị trí địa lý của user. Điều này có thể áp dụng cho ngân hàng. Nhưng nó có thể bị phá vỡ bởi `proxy web, vpn...`
+
+## Ngăn chặn
+
+> Có thể ngăn chặn bằng cách:
+>
+> - Không bao giờ dựa vào `obfuscation` để access control
+> - Từ chố truy cập theo mặc định
+> - Sử dụng cơ chế toàn ứng dụng để thực thi các biện pháp truy cập
+> - Buộc dev phải khai báo quyền truy cập mỗi tài nguyên, quyền truy cập
