@@ -349,3 +349,36 @@
 
 > Khi vào lab, ta click vào live chat, roi click vao `view tramscrip` để down file chat về. Sửa nó thành `1.txt`. Ban đầu minh không biết đâu. Thử đi thử lại thì lúc start lab thì nó chi cho down file `2.txt` > đoo len:
 > ![img](../asset/access-control-11-Insecure-direct-object-references-0.png) ![img](../asset/access-control-11-Insecure-direct-object-references-1.png) ![img](../asset/access-control-11-Insecure-direct-object-references-2.png)
+
+### Access control vulnerabilities in multi-step processes ()
+
+> Nhiều trang web thực hiện các chức năng quan trọng qua 1 loạt các bước. Vd chức năng cập nhập chi tiết user:
+>
+> - Load biểu mẫu thông tin chi tiết cho user cụ thể
+> - Submit changes
+> - Xác nhận
+
+> Đôi khi 1 số trang web thực hiện các bưoc kiểm soát nghiêm ngặt, nhưng lại bor qua 1 soó bưocs
+>
+> Ví duj: giả sử các điều khiển truy cập được áp dụng chính xác cho bước đầu tiên và bước thứ hai, nhưng không áp dụng cho bước thứ ba. Tại đây, kẻ tấn công có thể truy cập trái phép vào chức năng bằng cách bỏ qua hai bước đầu tiên và trực tiếp gửi yêu cầu cho bước thứ ba với các tham số bắt buộc.
+
+#### Lab: Multi-step process with no access control on one step
+
+> Des: Chứa admin control panel cho admin với các bước thiếu sot khi thay doi vai trong nguoi dung
+>
+> Dang nhap bang admin de thu, solve thi dang nhap bang wiener:peter va khi thac de thanh quan tri vien
+
+> Login với browser private với tài khoản wiener, login tài khoản administrator với browser thường.
+>
+> Vào control pane với administrator, nâng cấp với tài khoản carlos rồi chặn bắt nó. Vì nó cần các bước để xác nhận thông tin:
+
+> ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-0%20.png) ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-1.png)
+
+> Vì nó cần các xác thực như trên
+> ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-2.png) ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-3png.png)
+
+> Bắt cookie
+> ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-4.png)
+
+> Đổi nó:
+> ![img](../asset/access-control-12-Multi-step-process-with-no-access-control-on-one-step-5.png)
