@@ -51,18 +51,36 @@
 
 #### Common sources of information disclosure
 
-##### Files for web crawlers
+#### Files for web crawlers
 
 > Nhiều web cung cấp file /robots.txt và /sitemap.xml để giúp tiến trình thu thập thông tin điều hướng trang web của họ
 
-##### Directory listings
+#### Directory listings
 
-##### Developer comments
+#### Developer comments
 
-##### Error messages
+#### Error messages
 
 #### Lab: Information disclosure in error messages
 
 > Thông báo lỗi error message reveal tiết lộ ver của third-party framework. Lấy ver của nó rồi submit
 
 > ![img](../asset/information-disclosure-1-Information-disclosure-in-error-messages-0.png) ![img](../asset/information-disclosure-1-Information-disclosure-in-error-messages-1.png)
+
+#### Debugging data
+
+> Với mục đích vá lỗi, nhiều web tạo ra các custom error message chứa log về hành vi ứng dụng:
+>
+> - Là các biến chính có thể thao tác từ user
+> - thông tin đăng nhập máy chủ backend
+> - tệp, thư mục máy chủ
+> - key được sử dụng để mã hóa dữ liệu truyền qua máy khách
+
+#### Information disclosure on debug page
+
+> Des: Lab này chứa trang để debug để lộ thông tin nhạy cảm của ứng dụng. Để solve lấy và submit `SECRET_KEY`
+
+> Bài này chỉ cần view source code và đọc comment của dev và gửi request tới URL được ghi là oke.
+>
+> Có thể dùng tool `Find comment` của `burp suite` để tìm các comment của dev để lại:
+> ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-1.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-2.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-3.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-4.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-5.png)
