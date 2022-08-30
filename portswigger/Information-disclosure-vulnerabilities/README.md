@@ -67,6 +67,8 @@
 
 > ![img](../asset/information-disclosure-1-Information-disclosure-in-error-messages-0.png) ![img](../asset/information-disclosure-1-Information-disclosure-in-error-messages-1.png)
 
+---
+
 #### Debugging data
 
 > Với mục đích vá lỗi, nhiều web tạo ra các custom error message chứa log về hành vi ứng dụng:
@@ -84,3 +86,32 @@
 >
 > Có thể dùng tool `Find comment` của `burp suite` để tìm các comment của dev để lại:
 > ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-1.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-2.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-3.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-4.png) ![img](../asset/information-disclosure-2-Information-disclosure-on-debug-page-5.png)
+
+---
+
+#### User account pages
+
+> Hồ sơ hoặc tài khoản của user thường chứa các thông tin nhạy cảm như địa chỉ, sdt, api, ...
+>
+> User chỉ có thể vào tài khoản riêng của họ, điều này không thể hiện là 1 vul. Tuy nhiên một số web bị lỗ hổng logic. Cho phép attacker xem được data của các user khác ví dụ như:
+>
+> ```
+> GET /user/personal-info?user=carlos
+> ```
+
+> Hầu hết các trang web sẽ chặn bước này
+
+#### Source code disclosure via backup files
+
+> Có được quyền truy cập source code giúp attacker hiểu được hành vi của ứng dụng và xây dựng các cuộc attack với mức độ nghiêm trọng hơn.
+>
+> Ví dụ như khóa API và thông tin đăng nhập backend: Điều này giúp xác định được công nghệ đang sử dụng
+>
+> Thêm dấu `~` vào
+
+#### Lab: Source code disclosure via backup files
+
+> Lab này làm rò rỉ source code thông qua các file backup. Gửi passwd db để solve
+
+> Chỉ cần vào file `robots.txt` rồi làm theo là solve
+> ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-0.png) ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-1.png) ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-2.png)
