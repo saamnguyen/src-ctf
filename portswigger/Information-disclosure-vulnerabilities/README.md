@@ -137,3 +137,24 @@
 > ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-2.png)
 
 > Nó sẽ lấy IP của máy để cho vào `X-Custom-IP-Authorization:`, phải đổi thành localhost nên thêm `127.0.0.1` > ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-3.png) ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-4.png) ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-5.png)
+
+---
+
+#### Version control history
+
+> Tất cả các trang web đều được sử dụng và phát triển bằng 1 hệ thống chẳng hạn như `git`. Theo mặc định, một dự án đều được lưu trữ trong file `.git` . Trong case này chỉ cần truy cập tới file này là được
+>
+> Tải file này về đôi khi có những thứ thú vị trong nó
+
+#### Lab: Information disclosure in version control history
+
+> Des: Chứa data nhạy cảm. Lấy passwd của administrator và xóa carlos
+
+> Ban đầu clone repo đó về máy:
+> ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-0.png) ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-1.png)
+
+> Dùng các command như `git log, git status`:
+> ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-2.png) ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-3.png)
+
+> Thấy 2 commit khác nhau, so sánh nó dùng `git diff cmd1 cmd2`:
+> ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-4.png) ![img](../asset/information-disclosure-5-Information-disclosure-in-version-control-history-5.png)
