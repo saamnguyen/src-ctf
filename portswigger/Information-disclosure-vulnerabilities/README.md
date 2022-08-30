@@ -115,3 +115,25 @@
 
 > Chỉ cần vào file `robots.txt` rồi làm theo là solve
 > ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-0.png) ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-1.png) ![img](../asset/information-disclosure-3-Source-code-disclosure-via-backup-files-2.png)
+
+> Một khi attacker có quyền access source code, đây là bước lớn có thể xác định và khai thác. 1 Ví dụ về `deserialization`, xem vul sau 1 chủ đề chuyên dụng (advanced topic)
+
+---
+
+#### Information disclosure due to insecure configuration
+
+> Nhiều web bị attack do config không đúng. Điều này trở nên rộng rãi khi sử dụng phần mềm thứ 3 mà một loạt tùy chọn cấu hình không nhất thiết phải được những người implement phải hiểu rõ
+>
+> Trong các case khác, dev có thể quên tắt tùy chọn gỡ lỗi trong môi trường sản xuất. Ví dụ HTTP TRACE method được thiết kế cho chẩn đoán, nếu được bật, máy chủ web sẽ phản hồi TRACE method bằng các repeat các response
+
+#### Lab: Authentication bypass via information disclosure
+
+> Des:Lab có vul bỏ qua authen, nhưng khi exploit mà không có kiến thức về HTTP là không thực tế. Để solve xóa tài khoản `carlos`. Đăng nhập bằng `wiener:peter`
+
+> Ban đầu dùng get để vào path `/admin` thì unauthen:
+> ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-0.png) ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-1.png)
+
+> Chuyển sang `TRACE`:
+> ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-2.png)
+
+> Nó sẽ lấy IP của máy để cho vào `X-Custom-IP-Authorization:`, phải đổi thành localhost nên thêm `127.0.0.1` > ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-3.png) ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-4.png) ![img](../asset/information-disclosure-4-Authentication-bypass-via-information-disclosure-5.png)
