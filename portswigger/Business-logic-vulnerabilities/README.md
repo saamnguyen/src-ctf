@@ -96,3 +96,29 @@
 
 > Khi đặt sản phẩm thì lab cho `quantity` là số âm được. Giờ cần bằng sao cho sản phẩm phải bằng số tiền đã cho là 100$
 > ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-0.png) ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-n.png) ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-n-0.png)
+
+---
+
+#### Lab: Low-level logic flaw
+
+> Des: Không xác thực đầy đủ thông tin user, exploit logic vul trong quy trình mua hàng để mua mặt hàng với giá không mong muôn `lightweight l33t leather jacket`
+>
+> Login `wiener:peter`
+
+> Bài này sử dụng burp intruder để brute force xem limit của lab là gì. Không được đặt quá `99` số lương trên 1 lần đặt
+>
+> Tổng đơn hàng là không được quá: `2,147,483,647`
+
+> Đầu tiên send POST của đặt hàng qua intruder:
+> ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-0.png)
+
+> Để check xem max của đơn hàng là bao nhiêu, nó bị lỗi lúc số âm, lúc dương, sau đó remove hết đi exploit lại
+> ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-1.png)
+
+> ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-2.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-3.png)
+
+> Set payload như hình để attack:
+> ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-4.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-5.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-7.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-6.png)
+
+> Sau đó gửi 47 cái jacket để giảm số âm cho đủ rồi mua thêm đồ để thành số dương cho đủ 100$
+> ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-8.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n-n.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n-n-n.png)
