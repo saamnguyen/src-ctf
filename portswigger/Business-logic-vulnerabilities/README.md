@@ -147,3 +147,21 @@
 
 > Done:
 > ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-8.png)
+
+---
+
+### Making flawed assumptions about user behavior (Giả định sai làm về hành vi user)
+
+#### Trusted users won't always remain trustworthy ( Người dùng nào không phải lúc nào cũng tin cậy)
+
+> Khi đã pass qua các kiểm soát nghiêm ngặt rồi, dữ liệu của user được tin cậy vô thời hạn
+
+#### Lab: Inconsistent security controls
+
+> Lab này cho phép user access vào chức năng administrator dành cho nhân viên. Truy cập và xóa `carlos`
+
+> Bài này là về tin tưởng vô thời hạn nên exploit như bài trước thì không được:
+> ![img](../asset/Business-logic-vulnerabilities-6-Inconsistent-security-controls-0.png)
+
+> Vì là không nên tin tưởng nên change email thành subdomain của công ty luôn xem sao mà lại solve được luôn =)):
+> ![img](../asset/Business-logic-vulnerabilities-6-Inconsistent-security-controls-1.png)
