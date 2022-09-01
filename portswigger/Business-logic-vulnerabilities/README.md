@@ -58,3 +58,41 @@
 
 > Send `POST` qua intruder để brute force nó từ 1000 -> 9999, nó trả về `302` là oke. Copy tại `show response in broswer` :
 > ![img](../asset/Business-logic-vulnerabilities-2-2FA-broken-logic-5.png) ![img](../asset/Business-logic-vulnerabilities-2-2FA-broken-logic-6.png) ![img](../asset/Business-logic-vulnerabilities-2-2FA-broken-logic-7.png) ![img](../asset/Business-logic-vulnerabilities-2-2FA-broken-logic-8.png)
+
+---
+
+### Failing to handle unconventional input (Xử lý input không bình thường)
+
+> Mục đính của application login là hạn chế input cảu user đối với các giá trị tuân thủ của các quy tắc kinh doanh
+>
+> Ví dụ: Ứng dụng có thể được thiết kế để chấp thuận một kiểu data nhất định nhưng login này có được chấp thuận của business hay
+
+> Ví dụ: Một cửa hàng trực tuyến, khi đặt mua sp, ng dùng chỉ định số lượng họ muốn đặt. Nhưng phải đặt với số lượng cho phép, không quá số lượng của sp
+
+> Chức năng chuyển tiền, phải xem người gửi đủ tiền trước khi hoàn thành
+>
+> ```
+> $transferAmount = $_POST['amount'];
+> $currentBalance = $user->getBalance();
+>
+> if ($transferAmount <= $currentBalance) {
+>    // Complete the transfer
+> } else {
+>    // Block the transfer: insufficient funds
+> }
+> ```
+
+> Sử dụng burp suite để chặn và sửa request xem nó có điều gì xảy ra không:
+>
+> - Có giới hạn cho data?
+> - điều gì xảy ra khi đạt tới limit
+> - có bất kỳ chuyển đổi, chuẩn hóa nào đang thực hiện>
+
+#### Lab: High-level logic vulnerability
+
+> Des: Không xác thực đầy đủ thông tin user, exploit logic vul trong quy trình mua hàng để mua mặt hàng với giá không mong muôn `lightweight l33t leather jacket`
+>
+> Login `wiener:peter`
+
+> Khi đặt sản phẩm thì lab cho `quantity` là số âm được. Giờ cần bằng sao cho sản phẩm phải bằng số tiền đã cho là 100$
+> ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-0.png) ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-n.png) ![img](../asset/Business-logic-vulnerabilities-3-High-level-logic-vulnerability-n-0.png)
