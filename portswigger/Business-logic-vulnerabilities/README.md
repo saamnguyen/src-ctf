@@ -122,3 +122,28 @@
 
 > Sau đó gửi 47 cái jacket để giảm số âm cho đủ rồi mua thêm đồ để thành số dương cho đủ 100$
 > ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-8.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n-n.png) ![img](../asset/Business-logic-vulnerabilities-4-Low-level-logic-flaw-n-n-n.png)
+
+---
+
+#### Lab: Inconsistent handling of exceptional input
+
+> Des: Không xác thực đầy đủ thông tin user. Lấy quyền admin và xóa user carlos
+
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-4.png)![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-3.png)
+
+> Bài này khi register xong cũng không thấy gì để exploit. Dùng burp để quét xem path `/admin`:
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-0.png) ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-1.png)
+
+> Vào path `/admin` thì nó bắt là phải mang domamin `dontwannaycry.com` thì mới làm được quyền admin:
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-2.png)
+
+> Thử register nhiều ký tự với email xem sao, nếu quá 256 thì nó sẽ bị cắt:
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-5.png)
+
+> Nên để exploit thì sẽ đăng kí với email dài + `@dontwannacry.com` + `.email-id.web-security-academy.net` > ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-6.png)
+
+> Do thừa nên đăng kí lại:
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-7.png)
+
+> Done:
+> ![img](../asset/Business-logic-vulnerabilities-5-Inconsistent-handling-of-exceptional-input-8.png)
