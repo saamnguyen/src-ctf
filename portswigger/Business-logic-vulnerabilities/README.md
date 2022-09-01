@@ -165,3 +165,30 @@
 
 > Vì là không nên tin tưởng nên change email thành subdomain của công ty luôn xem sao mà lại solve được luôn =)):
 > ![img](../asset/Business-logic-vulnerabilities-6-Inconsistent-security-controls-1.png)
+
+---
+
+#### Users won't always supply mandatory input (Người dùng không phải lúc nào cũng cung cấp thông tin đầu vào bắt buộc)
+
+> Luôn cung cấp giá trị cho trường bắt buộc. user bình thường sẽ không thể gửi kèm các trường không bắt buộc, nhưng attacker thì khác, có thể giả mạo chúng
+
+> Khi thăm dò lỗi logic, thử bỏ từng param và quan sát xem có ảnh hưởng gì tới response:
+>
+> - Chỉ xóa 1 param tại 1 time để đảm bảo được tất cả các path có liên quan
+> - Xóa thử param + tham số. Máy chủ sẽ xem xét và xử lý 2 trường hợp
+> - Thực hiện nhiều quá trình cho tới khi hoàn thành
+
+> Áp dụng cho URL và POST, kiểm tra thêm cả cookie
+
+#### Lab: Weak isolation on dual-use endpoint
+
+> Des:Đưa ra 1 giả định sai lầm về đặc quyền của user dựa trên thông tin đầu vào của họ. exploit tính năng quản lý tài khoản để có quyền truy cập vào account của user. Xóa carlos. Login bằng `wiener:peter`
+
+> Bài này thì đầu tiên thử quét các path xem sao:
+> ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-0.png)
+
+> Thử đổi passwd:
+> ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-1.png)
+
+> Chall này bảo xóa từ param đi và thử xem server trả về gì. Ban đầu thử xóa tham số của `current-password` thì lỗi, k đổi được. Xong xóa cả param + tham số đi thì vẫn change được. Chứng tỏ không cần param `current-password` thì vẫn đổi được pass -> đổi luôn của administrator:
+> ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-2.png) ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-3.png) ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-4.png)
