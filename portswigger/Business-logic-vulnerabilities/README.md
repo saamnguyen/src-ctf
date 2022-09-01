@@ -192,3 +192,15 @@
 
 > Chall này bảo xóa từ param đi và thử xem server trả về gì. Ban đầu thử xóa tham số của `current-password` thì lỗi, k đổi được. Xong xóa cả param + tham số đi thì vẫn change được. Chứng tỏ không cần param `current-password` thì vẫn đổi được pass -> đổi luôn của administrator:
 > ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-2.png) ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-3.png) ![img](../asset/Business-logic-vulnerabilities-7-Weak-isolation-on-dual-use-endpoint-4.png)
+
+---
+
+#### Lab: Password reset broken logic
+
+> Bài này có lỗi ở reset passwd, đổi passwd của carlos rồi vào `my-account` để solve
+
+> Khi reset lại passwd phải có mail để gửi link về. Lab cũng cung cấp 1 server email để nhận link:
+> ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-0.png)
+
+> Nhập và làm theo, dùng burp để chặn:
+> ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-1.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-2.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-3.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-4.png)
