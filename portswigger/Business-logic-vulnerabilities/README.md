@@ -244,3 +244,17 @@
 > ![img](../asset/Business-logic-vulnerabilities-10-Insufficient-workflow-validation-2.png)
 
 > Nên ta đổi path `/cart` là oke
+
+---
+
+#### Lab: Authentication bypass via flawed state machine
+
+> Des: Lab này đưa ra các giả định thiếu sót về chuỗi sự kiện quy trình đăng nhập. Lấy quyền admin và xóa `carlos`
+>
+> Đăng nhập bằng `wiener:peter`
+
+> Ban đầu làm cứ tưởng đổi role thành administrator là oke:
+> ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-6.png)
+
+> Nhưng không được, khi login, nó sẽ yêu cầu account, dùng burp để chặn nó khi gửi request đi, `forward` là 1 sẽ ra path : `/role-selector`, drop nó đi rồi quay lại trang chủ là được =))
+> ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-0.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-1.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-2.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-3.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-4.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-5.png)
