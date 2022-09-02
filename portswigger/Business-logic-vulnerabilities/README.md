@@ -204,3 +204,22 @@
 
 > Nhập và làm theo, dùng burp để chặn:
 > ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-1.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-2.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-3.png) ![img](../asset/Business-logic-vulnerabilities-8-Password-reset-broken-logic-4.png)
+
+#### Users won't always follow the intended sequence
+
+> Nhiều giao dịch dựa trên quy trình công việc được xác định bao gồm một chuỗi các bước. Giao diện web thường hướng dẫn user qua quy trình này, những attacker sẽ không tuân thủ theo những quy định
+
+> Ví dụ: Nhiều ứng dụng sử dụng xác thực 2 yếu tố 2FA dùng để login. Theo quy định thì user phải làm theo điều này việc xác minh thì không phải họ làm, attacker sẽ bỏ qua hoàng toàn 2FA
+
+#### Lab: 2FA simple bypass
+
+> Lab này xác thực 2 yếu tố có thể bị bỏ qua, để solve hãy truy cập tài khoản của carlos
+
+> Login: `wiener:peter`, victim: `carlos: montoya`
+
+> Bài này thử brute force mã otp mà không được =)), nó chỉ cho nhập 1 lần. Nếu sai là cút luôn.
+>
+> Login với tài khoản victim, khi vào chỗ nhập mã otp thì trên path chuyển sang path `/my-account` thì solve luôn. Chứng tỏ làm cái nhập mã otp không sử dụng đến cũng được =))
+> ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-0.png) ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-1.png) ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-2.png)
+
+---
