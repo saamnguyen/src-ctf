@@ -223,3 +223,24 @@
 > ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-0.png) ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-1.png) ![img](../asset/Business-logic-vulnerabilities-9-2FA-simple-bypass-2.png)
 
 ---
+
+> Sử dụng công cụ như Burp Proxy hay Repeater giúp attacker có thể gửi đi gửi lại các request
+
+> Để xác định lỗi này, brute force để gửi các yêu cầu không mong muốn.
+
+#### Lab: Insufficient workflow validation
+
+> Lab này đưa ra các giả định thiếu sót về chuỗi sự kiện quy trình mua hàng. Để solve hãy mua `Lightweight l334 jacket`
+>
+> Login: `wiener:peter`
+
+> Bài này ban đầu cứ đặt 1 sản phẩm nhỏ hơn 100$ đã cho và chặn nó. Tới 1 path là `/cart/order-confirmation?order-confirmed=true` copy nó rồi chuyến sang sản phẩm kia rồi chặn và sửa nó khi bị lỗi không đủ tiền:
+> ![img](../asset/Business-logic-vulnerabilities-10-Insufficient-workflow-validation-0.png)
+
+> Nếu đủ tiền:
+> ![img](../asset/Business-logic-vulnerabilities-10-Insufficient-workflow-validation-1.png)
+
+> Nếu không đủ:
+> ![img](../asset/Business-logic-vulnerabilities-10-Insufficient-workflow-validation-2.png)
+
+> Nên ta đổi path `/cart` là oke
