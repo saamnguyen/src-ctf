@@ -258,3 +258,26 @@
 
 > Nhưng không được, khi login, nó sẽ yêu cầu account, dùng burp để chặn nó khi gửi request đi, `forward` là 1 sẽ ra path : `/role-selector`, drop nó đi rồi quay lại trang chủ là được =))
 > ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-0.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-1.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-2.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-3.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-4.png) ![img](../asset/Business-logic-vulnerabilities-11-Authentication-bypass-via-flawed-state-machine-5.png)
+
+### Domain-specific flaws
+
+> Trong nhiều trường hợp, sẽ gặp phải lỗi logic. Ví dụ chức năng discount của shop
+>
+> Cửa hàng sẽ có mã giảm 10% đối với đơn từ 1000$ nhưng attacker sẽ dễ thay đổi chiết khấu.
+>
+> Trường hợp này ng mua sẽ lấy đủ 1000$ xong loại bỏ các sản phẩm không cần đi. Họ nhận được chiết khấu cho đơn hàng cho dù không đủ chỉ tiêu
+
+#### Lab: Flawed enforcement of business rules
+
+> Des: Có lỗ hổng khi mua hàng, để sovle hãy mua `Lightweight l33t leather jacket`
+>
+> Login bằng `wiener:peter`
+
+> Mới vào lab đã thấy có `discount`:
+> ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-0.png)
+
+> Kéo xuống thì có cái sign up để nhập 1 cái phiếu discount khác=))
+> ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-1.png)
+
+> Khi nhận xong thì nhập discount so le sẽ được :
+> ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-2.png) ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-3.png)
