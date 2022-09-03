@@ -281,3 +281,11 @@
 
 > Khi nhận xong thì nhập discount so le sẽ được :
 > ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-2.png) ![img](../asset/Business-logic-vulnerabilities-12-Flawed-enforcement-of-business-rules-3.png)
+
+---
+
+#### Lab: Infinite money logic flaw
+
+> Des: Có lỗ hổng khi mua hàng, để sovle hãy mua `Lightweight l33t leather jacket`
+>
+> Login bằng `wiener:peter`
