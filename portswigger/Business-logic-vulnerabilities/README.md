@@ -289,3 +289,79 @@
 > Des: Có lỗ hổng khi mua hàng, để sovle hãy mua `Lightweight l33t leather jacket`
 >
 > Login bằng `wiener:peter`
+
+> Giao diện:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-0.png)
+
+> Đầu tiên thì cứ mua trước 1 đồ gì đó:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-1.png)
+
+> Sau đó qua `/home` để lấy mã giảm giá:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-2.png)
+
+> Sau đó apply mã đó vào để được giảm:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-3.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-4.png)
+
+> Sau đó click vào `Place order` để nhận code:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-5.png)
+
+> Sau đó copy chuyển sang `my-account` để áp mã:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-6.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-7.png)
+
+> -> Nó đã được discount lại tiền nhiều hơn lúc ban đầu (3$)
+
+> Vì nó được thêm 3$ nên ta sẽ tận dụng lỗi này để auto quá trình này. Sử dụng `Project options -> sessions` làm theo như sau:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-8.png)
+
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-9.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-10.png)
+
+> Để `include all URLs`:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-11.png)
+
+> Chọn `Run a macro`:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-12.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-13.png)
+
+> Sẽ như này:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-14.png)
+
+> Click (chuột trái rồi chọn thêm):
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-15.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-16.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-17.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-18.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-19.png)
+
+> Tiếp đó:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-20.png)
+
+> `Configure item` :
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-21.png)
+
+> Sẽ hiện ra:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-22.png)
+
+> Set up:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-23.png)
+
+> `Configure item` tiếp:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-24.png)
+
+> Set up:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-25.png)
+
+> Sau đó có thể test thử trước:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-26.png)
+
+> Oke rồi đó:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-27.png)
+
+> Sang `HTTP history` để tìm path `/my-account`:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-28.png)
+
+> Send sang `intruder` và set up nó:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-29.png) ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-30.png)
+
+> Chỗ này sẽ là tạo 1 `Resource pool` mới với `maximum concurrent request là 1`:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-31.png)
+
+> Start và đợi kết quả:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-32.png)
+
+> Mua đồ thêm thôi:
+> ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-33.png)
