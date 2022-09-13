@@ -365,3 +365,61 @@
 
 > Mua đồ thêm thôi:
 > ![img](../asset/Business-logic-vulnerabilities-13-Infinite-money-logic-flaw-33.png)
+
+### Providing an encryption oracle
+
+> Các tình huống nguy hiểm có thể xảy ra khi input do user kiểm soát được encrypted và cipher lại được cung cấp cho user theo 1 cách nào đó
+
+> Loại input này được gọi là `Encryption oracle` . Attacker có thể sử dụng input để encrypt data tùy ý bằng cách sử dụng các thuật toán chính xác và khóa không đối xứng
+
+> Điều này sẽ trở nên nguy hiểm khi các input khác do user kiểm soát trong ứng dụng được mã hóa bằng cùng 1 mật mã. Attacker có thể dự đoán mã để tạo input hợp lệ sau đó chuyển nó vào các function nhạy cảm
+
+#### Lab: Authentication bypass via encryption oracle
+
+> Des: Lab này làm lộ ra encrytion oracle của user. Để sovle thì hãy truy cập vào admin và xóa carlos
+
+> Login bằng : `wiener:peter`
+
+> Giao diện:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-0.png)
+
+> Nếu khi login ta click vào `Stay logged in` thì sẽ có cookie được mã hóa:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-1.png)
+
+> Khi comment bằng một mail invalid thì sẽ lỗi và `cookie notification` sẽ được mã hóa trước khi chuyển về lại blog mà bạn comment:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-2.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-3.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-4.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-5.png)
+
+> Suy ra điều này phải được giải mã từ cookie notification. Gửi `POST /post/comment` và `GET /post?postid=x` tới repeater
+
+> Copy `stay-logged-in` rồi paste vào `notification` tại path `/post?postId=x` rồi xem response:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-6.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-7.png)
+
+> Tại tab `ENCRYPT` (tự đặt tên ở repeater) đổi email thành `administrator:xxxx` x là copy từ response trước:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-8.png)
+
+> Copy `Set-cookie: notification:xxxx`:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-9.png)
+
+> Qua tab `DECRYPT` paste vào Cookie `notification` và xem response:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-10.png)
+
+> Qua lại `ENCRYPT` và send cookie ở response như này:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-11.png)
+
+> Ban đầu là decode qua URL, Base64 (click chuột phải chọn các bit như sau):
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-12.png)
+
+> Sau đó encode ngược lại để được script:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-13.png)
+
+> Qua DECRYPT dán script vào cookie `notification`:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-14.png)
+
+> Thấy response vì ít nhất là 16 kí tự tại input nên sửa lại:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-15.png)
+
+> Làm lại các bước decode sau đó gửi nó sẽ trả về `administrator:xxxx` và không có lỗi
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-16.png)
+
+> Dùng burp chặn `/home` và sửa `stay-logged-in:scrip` và xóa `session`:
+> ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-17.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-18.png) ![img](../asset/Business-logic-vulnerabilities-14-Authentication-bypass-via-encryption-oracle-19.png)
