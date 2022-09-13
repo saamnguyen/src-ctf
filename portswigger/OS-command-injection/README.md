@@ -58,3 +58,48 @@
 
 > Bài này chỉ cần vào check stock rổi thay đổi param thêm `|whoami` là oke:
 > ![img](../asset/os-command-injection-1-OS-command-injection-simple-case-0.png)
+
+## Useful commands
+
+> Khi đã exploit được vul thì dưới đây là một số lệnh hữu ích trên nền tảng linux và window:
+>
+> Purpose of command | Linux | Windows
+>
+> Name of current user | whoami | whoami
+>
+> Operating system | uname -a | ver
+>
+> Network configuration| ifconfig | ipconfig /all
+>
+> Network connections | netstat -an | netstat -an
+>
+> Running processes | ps -ef | tasklist
+
+## Blind OS command injection vulnerabilities (Lỗ hổng chèn lệnh hệ điều hành mù)
+
+> Ứng dụng không trả về kết quả trong response, nhưng vẫn có thể exploit bằng chèn mù nhưng cần các kĩ thuật khác nhau
+
+> Xem xét 1 web cho user gửi feedback về web. User gửi phản hồi và email của họ. Sau đó phía server tạo mail và gửi về admin web:
+>
+> ```
+> mail -s "This site is great" -aFrom:peter@normal-user.net feedback@vulnerable-website.com
+> ```
+
+## Detecting blind OS command injection using time delays (Phát hiện đưa lệnh mù vào hệ điều hành bằng cách sử dụng độ trễ thời gian)
+
+> Có thể inject lệnh đưa vào sẽ kích hoạt time delays. Lệnh `ping` là 1 cách hiệu quả để thực hiện việc này vì nó cho phép chỉ định số lượng ICMP cần gửi do đó thời gian cần thiết để chạy lệnh:
+>
+> ```
+> & ping -c 10 127.0.0.1 &
+> ```
+
+> Lệnh này sẽ khiến ứng dụng ping bộ điều hợp mạng loopback trong 10 giây.
+
+### Lab: Blind OS command injection with time delays
+
+> Des: Chứa vul blind OS command inject tại submit feedback. Chứa thực thi shell, output không được response. Để solve hãy exploit blind os command injection gây là delays 10s
+
+> Dùng burp và chặn sửa request tại param email: `email:x||ping+-c+10+127.0.0.1||` > ![img](../asset/os-command-injection-2-Blind-OS-command-injection-with-time-delays-0.png)
+
+> Đợi 10s sau burp sẽ response và qua web sẽ solve được:
+> ![img](../asset/os-command-injection-2-Blind-OS-command-injection-with-time-delays-1.png)
