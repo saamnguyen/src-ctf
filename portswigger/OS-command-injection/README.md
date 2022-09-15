@@ -190,7 +190,7 @@
 
 > Des: Lab này chứa vul tại feedback. cho phép user thực hiện shell, nhưng không bất đồng bộ và làm ảnh hưởng tới response. Không thể redirect. Tuy nhiên có thể kích hoạt tương tác ngoài băng tần với domain ngoài
 
-> Để solv hãy thực hiện command `whoami` và trích xuất DNS với Burp Collaborator. Nhập tên của user hiện tại
+> Để solve hãy thực hiện command `whoami` và trích xuất DNS với Burp Collaborator. Nhập tên của user hiện tại
 
 > Bài này chặn submit feedback và sửa field email:
 >
