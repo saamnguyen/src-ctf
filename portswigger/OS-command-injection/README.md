@@ -103,3 +103,45 @@
 
 > Đợi 10s sau burp sẽ response và qua web sẽ solve được:
 > ![img](../asset/os-command-injection-2-Blind-OS-command-injection-with-time-delays-1.png)
+
+## Exploiting blind OS command injection by redirecting output
+
+> Có thể redirect output từ command được đưa từ trong folder root.
+>
+> Ví dụ muốn lấy file từ folder : `/var/www/static`:
+>
+> ```
+> & whoami > /var/www/static/whoami.txt &
+> ```
+
+> Kí tự `>`gửi result từ command `whoami` đến tệp được chỉ định.
+
+### Lab: Blind OS command injection with output redirection
+
+> Des: Lab này chứa vul OS command injection trong function feedback
+
+> App sẽ thực thi các shell mà user nhập vào.Output không được trả về trong response. Tuy vậy có thể redirect để nắm bắt command :
+>
+> ```
+> /var/www/images/
+> ```
+
+> Để solve thì thực hiện command `whoami`
+
+> Ban đầu nhập vào để submit feedback:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-0.png)
+
+> Chặn và sửa field email, ta sẽ viết command `whoami` vào file exploit.txt và lưu trong path `/var/www/images`:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-1.png) ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-2.png)
+
+> Response:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-3.png)
+
+> Về trang chủ và dùng burp để chặn bắt nó:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-4.png) ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-5.png)
+
+> Thấy path của `/image?filename=x` ta send sang repeater và đổi thành file exploit.txt vừa sửa:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-6.png)
+
+> Chuyển sang off và nhận kết quả:
+> ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-7.png) ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-8.png)
