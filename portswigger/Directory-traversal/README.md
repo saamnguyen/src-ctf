@@ -129,3 +129,22 @@
 
 > Sửa, ta phải thoát khỏ 3 thư mục đầu:
 > ![img](../asset/Directory-traversal-4-File-path-traversal-validation-of-start-of-ath-1.png)
+
+---
+
+> Nếu ứng dụng yêu cầu tên tệp do người dùng input phải kết thúc bằng extension file dự kiến, chẳng hạn như `null byte`:
+>
+> ```
+> filename=../../../etc/passwd%00.png
+> ```
+
+### Lab: File path traversal, validation of file extension with null byte bypass
+
+> Des:Lab này chứ vul `directory traversal`
+
+> Ứng dụng xác nhận filename được cung cấp của user bằng kết thúc của file mở rộng.
+
+> Để sovle thì hãy truy xuất content của `/etc/passwd`
+
+> Bài này dùng null byte:
+> ![img](../asset/Directory-traversal-5-File-path-traversal-validation-of-file-extension-with-null-byte-bypass-0.png) ![img](../asset/Directory-traversal-5-File-path-traversal-validation-of-file-extension-with-null-byte-bypass-1.png)
