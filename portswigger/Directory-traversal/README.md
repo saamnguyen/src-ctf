@@ -68,3 +68,21 @@
 > Để solve thì truy xuất content của `/etc/passwd`
 
 > Bài này chỉ cần đổi `filename=/etc/passwd` > ![img](../asset/Directory-traversal-1-File-path-traversal-traversal-sequences-blocked-with-absolutepath-bypass-0.png)
+
+---
+
+> Nếu các trình duyệt không nhận thì có thể thay đổi kí tự:
+>
+> ```
+> .....// or ....\/
+> ```
+
+### Lab: File path traversal, traversal sequences stripped non-recursively
+
+> Des:Lab này chứ vul `directory traversal`
+
+> Ứng dụng tách các trình tự truyền tải đường dẫn khỏi tên tệp do người dùng cung cấp trước khi sử dụng.
+
+> Để solve thì truy xuất content của `/etc/passwd`
+
+> Bài này chỉ cần đổi `filename=....//....//....//etc/passwd` > ![img](../asset/Directory-traversal-2-File-path-traversal-traversal-sequences-stripped-non-recursively-0.png)
