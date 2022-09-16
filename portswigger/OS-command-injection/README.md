@@ -4,11 +4,15 @@
 
 > ![img](../asset/os-command-injection-0.png)
 
+---
+
 ## OS command injection là gì?
 
 > OS command injection (hay còn được gọi là shell injection) là 1 vul web cho phép attacker thực thi command trên OS (HĐH) tùy ý trên server và xâm phạm, lấy cắp data.
 
 > Thông thường attacker có thể lợi dụng vul để xâm phạm các thành phần khác, khai thác các mối quan hệ
+
+---
 
 ## Executing arbitrary commands
 
@@ -59,6 +63,8 @@
 > Bài này chỉ cần vào check stock rổi thay đổi param thêm `|whoami` là oke:
 > ![img](../asset/os-command-injection-1-OS-command-injection-simple-case-0.png)
 
+---
+
 ## Useful commands
 
 > Khi đã exploit được vul thì dưới đây là một số lệnh hữu ích trên nền tảng linux và window:
@@ -75,6 +81,8 @@
 >
 > Running processes | ps -ef | tasklist
 
+---
+
 ## Blind OS command injection vulnerabilities (Lỗ hổng chèn lệnh hệ điều hành mù)
 
 > Ứng dụng không trả về kết quả trong response, nhưng vẫn có thể exploit bằng chèn mù nhưng cần các kĩ thuật khác nhau
@@ -84,6 +92,8 @@
 > ```
 > mail -s "This site is great" -aFrom:peter@normal-user.net feedback@vulnerable-website.com
 > ```
+
+---
 
 ## Detecting blind OS command injection using time delays (Phát hiện đưa lệnh mù vào hệ điều hành bằng cách sử dụng độ trễ thời gian)
 
@@ -103,6 +113,8 @@
 
 > Đợi 10s sau burp sẽ response và qua web sẽ solve được:
 > ![img](../asset/os-command-injection-2-Blind-OS-command-injection-with-time-delays-1.png)
+
+---
 
 ## Exploiting blind OS command injection by redirecting output
 
@@ -146,6 +158,8 @@
 > Chuyển sang off và nhận kết quả:
 > ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-7.png) ![img](../asset/os-command-injection-3-Blind-OS-command-injection-with-output-redirection-8.png)
 
+---
+
 ## Exploiting blind OS command injection using out-of-band (OAST) techniques
 
 > Có thể sử dụng một lệnh được đưa vào sẽ kích hoạt tương tác `out-of-band` với system mà bạn kiểm soát, sử dụng các kỹ thuật `OAST`:
@@ -172,8 +186,6 @@
 >
 > ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-0.png) ![img](../asset/os-command-injection-4-Blind-OS-command-injection-with-out-of-band-interaction-1.png)
 
----
-
 > `out-of-band` cũng cung cấp một cách dễ dàng để lọc đầu ra từ các command đưa vào:
 >
 > ```
@@ -185,6 +197,8 @@
 > ```
 > wwwuser.kgji2ohoyw.web-attacker.com
 > ```
+
+---
 
 ### Lab: Blind OS command injection with out-of-band data exfiltration
 
@@ -199,3 +213,46 @@
 > ```
 >
 > ![](../asset/os-command-injection-5-Blind-OS-command-injection-with-out-of-band-data-exfiltration-0.png) ![img](../asset/os-command-injection-5-Blind-OS-command-injection-with-out-of-band-data-exfiltration-1.png)
+
+---
+
+## Ways if injecting OS commands
+
+> Có nhiều kí tự có thể sử dụng để exploit OS command. Một số kí tự có chức năng như phân tách command hoặc nối chuỗi:
+
+> Dưới đây là dấu phân tách command dành cho Windows và Unix:
+>
+> ```
+> &
+> &&
+> |
+> ||
+> ```
+
+> Chỉ hoạt động trên Unix:
+>
+> ```
+> ;
+> Newline (0x0a or \n)
+> ```
+
+> Dùng $ để thực hiện nội dung định tuyến một command:
+>
+> ```
+> `
+> injected command `
+> $(
+> injected command )
+> ```
+
+---
+
+## Phòng chống:
+
+> Cách tốt nhất là không gọi command OS từ application-layer code.
+
+> Nếu không thể tránh khỏi việc gọi ra các OS command từ user nhập vào thì phải validate input:
+>
+> - Xác thực whitelist với các giá trị được cho phép
+> - Xác thực đầu vào với number
+> - Xác thực input với các kỹ tự chữ và số, không có cú pháp hoặc khoảng trắng
