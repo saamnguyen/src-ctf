@@ -86,3 +86,26 @@
 > Để solve thì truy xuất content của `/etc/passwd`
 
 > Bài này chỉ cần đổi `filename=....//....//....//etc/passwd` > ![img](../asset/Directory-traversal-2-File-path-traversal-traversal-sequences-stripped-non-recursively-0.png)
+
+---
+
+> Trong một vài ngữ cảnh, chẳng hạn URL path hoặc param của request là `multipart/form-data`. Server có thể tách bất kì thư mục của input
+
+> Đôi khi có thể bỏ qua nó bằng cách `URL encode` or `Double URL encoding`.
+
+> `../` sẽ thành `%2e%2e%2f` or `%252e%252e%252f`
+
+> Với người dùng burp pro, `Burp Intruder` có cung cấp các list payload (Fuzzing - path traversal) chứa nhiều trình tự trình duyệt khác nhau.
+
+---
+
+### Lab: File path traversal, traversal sequences stripped with superfluous URL-decode
+
+> Des:Lab này chứ vul `directory traversal`
+>
+> Ứng dụng chặn input, sau đó thực hiện giải mã URL encode.
+>
+> Để solve thì hãy truy cập vào `etc/passwd`
+
+> Bài này nó 2 lần URL encode nên ta 2 lần encode `../../../` sẽ exploit được:
+> ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-1.png) ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-2.png) ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-0.png)
