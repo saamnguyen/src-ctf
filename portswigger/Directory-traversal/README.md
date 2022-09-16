@@ -148,3 +148,9 @@
 
 > Bài này dùng null byte:
 > ![img](../asset/Directory-traversal-5-File-path-traversal-validation-of-file-extension-with-null-byte-bypass-0.png) ![img](../asset/Directory-traversal-5-File-path-traversal-validation-of-file-extension-with-null-byte-bypass-1.png)
+
+## Cách phòng chống
+
+> Cách hiệu quả để ngăn chặn `directory traversal` là tránh hoàn toàn input do user nhập vào với các API hệ thống.
+>
+> - So sánh với whitelist
