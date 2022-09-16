@@ -109,3 +109,23 @@
 
 > Bài này nó 2 lần URL encode nên ta 2 lần encode `../../../` sẽ exploit được:
 > ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-1.png) ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-2.png) ![img](../asset/Directory-traversal-3-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode-0.png)
+
+---
+
+> Nếu một ứng dụng yêu cầu filename do người dùng cung cấp phải bắt đầu từ folder cơ sở. chẳng hạn như `/var/www/images`, thì có thể bao gồm folder base theo sau:
+>
+> ```
+> filename=/var/www/images/../../../etc/passwd
+> ```
+
+### Lab: File path traversal, validation of start of path
+
+> Des:Lab này chứ vul `directory traversal`
+
+> Ứng dụng truyền đường dẫn filename đầy đủ thông tin tham gia yêu cầu và xác nhận rằng đường dẫn được cung cấp bắt đầu với thư mục mong đợi
+
+> Dùng burp chặn request thì ta thấy:
+> ![img](../asset/Directory-traversal-4-File-path-traversal-validation-of-start-of-ath-0.png)
+
+> Sửa, ta phải thoát khỏ 3 thư mục đầu:
+> ![img](../asset/Directory-traversal-4-File-path-traversal-validation-of-start-of-ath-1.png)
