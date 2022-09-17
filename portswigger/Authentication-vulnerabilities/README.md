@@ -43,11 +43,15 @@
 
 > Brute-force không phải lúc nào cũng chỉ là một trường hợp phỏng đoán hoàn toàn ngẫu nhiên về tên người dùng và mật khẩu. Cũng bằng cách sử dụng logic cơ bản hoặc kiến ​​thức có sẵn công khai, những kẻ tấn công có thể tinh chỉnh các cuộc tấn công bạo lực để đưa ra các phỏng đoán có học thức hơn nhiều. Điều này làm tăng đáng kể hiệu quả của các cuộc tấn công như vậy. Các trang web dựa vào đăng nhập dựa trên mật khẩu làm phương pháp xác thực người dùng duy nhất của chúng có thể rất dễ bị tấn công nếu chúng không thực hiện đầy đủ biện pháp bảo vệ bạo lực.
 
+---
+
 ##### Brute-forcing usernames
 
 > Tên người dùng đặc biệt dễ đoán nếu chúng tuân theo một mẫu dễ nhận biết, chẳng hạn như địa chỉ email. Ví dụ: rất thường thấy các thông tin đăng nhập doanh nghiệp ở định dạng firstname.lastname@somecompany.com. Tuy nhiên, ngay cả khi không có khuôn mẫu rõ ràng, đôi khi ngay cả những tài khoản có đặc quyền cao cũng được tạo bằng cách sử dụng tên người dùng có thể dự đoán được, chẳng hạn như quản trị viên hoặc quản trị viên.
 
 > Trong quá trình kiểm tra, hãy kiểm tra xem trang web có tiết lộ tên người dùng tiềm năng một cách công khai hay không. Ví dụ: bạn có thể truy cập hồ sơ người dùng mà không cần đăng nhập không? Ngay cả khi nội dung thực tế của hồ sơ bị ẩn, tên được sử dụng trong hồ sơ đôi khi giống với tên người dùng đăng nhập. Bạn cũng nên kiểm tra phản hồi HTTP để xem có địa chỉ email nào bị tiết lộ hay không. Đôi khi, phản hồi chứa địa chỉ email của những người dùng có đặc quyền cao như quản trị viên và bộ phận hỗ trợ CNTT.
+
+---
 
 ##### Brute-forcing passwords
 
@@ -62,6 +66,8 @@
 > Trong trường hợp chính sách yêu cầu người dùng thay đổi mật khẩu của họ thường xuyên, người dùng cũng thường chỉ thực hiện những thay đổi nhỏ, có thể dự đoán được đối với mật khẩu ưa thích của họ. Ví dụ, Mypassword1! trở thành Mypassword1? hoặc Mypassword2 !.
 
 > Kiến thức về các thông tin xác thực có thể xảy ra và các mẫu có thể dự đoán được có nghĩa là các cuộc tấn công brute-force thường có thể phức tạp hơn nhiều và do đó hiệu quả hơn là chỉ lặp đi lặp lại mọi tổ hợp ký tự có thể có.
+
+---
 
 ##### Username enumeration
 
@@ -92,3 +98,29 @@
 
 > Lấy nó và làm lại:
 > ![img](../asset/Authentication-vulnerabilities-0-Username-enumeration-via-different-responses-3.png) ![img](../asset/Authentication-vulnerabilities-0-Username-enumeration-via-different-responses-4.png) ![img](../asset/Authentication-vulnerabilities-0-Username-enumeration-via-different-responses-5.png) ![img](../asset/Authentication-vulnerabilities-0-Username-enumeration-via-different-responses-6.png)
+
+---
+
+#### Lab: Username enumeration via subtly different responses
+
+> Des: Phòng thí nghiệm này rất dễ bị tấn công bởi các cuộc tấn công liệt kê tên người dùng và mật khẩu. Nó có một tài khoản với tên người dùng và mật khẩu có thể dự đoán được, có thể tìm thấy trong danh sách từ sau:
+
+> - [Candidate usernames](https://portswigger.net/web-security/authentication/auth-lab-usernames)
+> - [Candidate passwords](https://portswigger.net/web-security/authentication/auth-lab-passwords)
+
+> Bài này là tìm sự khác nhau giữa `username` loggin đúng và sai nhờ `response` từ `request`:
+
+> Vì nó ghi là mk or tk sai nên không thể truy xuất được user nào đúng để exploit
+> ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-0.png)
+
+> Lần này chỉ add payload vào username thôi:
+> ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-1.png)
+>
+> Sau đó add thêm `Grep-Extract` để nó lọc các response với nhau:
+> ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-2.png)
+>
+> Thấy sự khác nhau là không có dấu `.`:
+> ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-3.png)
+
+> Làm lại và add payload là passwd:
+> ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-4.png) ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-5.png)
