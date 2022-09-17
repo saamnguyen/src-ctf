@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="threermiclient">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/rmiclient/threermiclient.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
