@@ -128,3 +128,18 @@
 #### Lab: Username enumeration via response timing
 
 > Des: Phòng thí nghiệm này dễ bị liệt kê tên người dùng bằng cách sử dụng thời gian phản hồi của nó. Để giải phòng thí nghiệm, hãy liệt kê một tên người dùng hợp lệ, brute-ép mật khẩu của người dùng này, sau đó truy cập trang tài khoản của họ.
+
+> Bài này khi login quá nhiều trên một ip sẽ bị block:
+> ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-0.png)
+
+> Gửi /login tới Intruder: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-1.png)
+
+> Set payload như hình, đặc biệt passwd phải dài tầm 100 kí tự hoặc hơn vì passwd càng dài thì thời gian xử lí sẽ càng lâu vì phải quét passwd (vì user đúng mà)
+>
+> Thêm payload là `X-Forwarded-For` là vì phải đổi ip (fake ip để không bị block 30'): ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-2.png) ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-3.png)
+
+> Chú ý cột time response càng lâu thì chính là nó: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-4.png)
+
+> Lấy được user rồi thì làm lại từ đầu nhưng đổi payload thành passwd: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-5.png) ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-6.png)
+
+> và xong: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-7.png)
