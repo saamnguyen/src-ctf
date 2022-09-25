@@ -124,3 +124,7 @@
 
 > Làm lại và add payload là passwd:
 > ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-4.png) ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-5.png)
+
+#### Lab: Username enumeration via response timing
+
+> Des: Phòng thí nghiệm này dễ bị liệt kê tên người dùng bằng cách sử dụng thời gian phản hồi của nó. Để giải phòng thí nghiệm, hãy liệt kê một tên người dùng hợp lệ, brute-ép mật khẩu của người dùng này, sau đó truy cập trang tài khoản của họ.
