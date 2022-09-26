@@ -231,3 +231,17 @@
 > Các account còn lại đều bị lock
 
 > Lấy account đó và set lại cộng list passwd: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-5.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-6.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-7.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-8.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-9.png)
+
+---
+
+### User rate limiting
+
+> Một cách khác mà các trang web cố gắng chặn tấn công brute force là thông qua `user rate limit`. Nếu có quá nhiều yêu cầu login trên một ip thì sẽ khiến ip bị chặn
+
+#### Lab: Broken brute-force protection, multiple credentials per request
+
+> Des: Phòng thí nghiệm này dễ bị tấn công do có một lỗ hổng logic trong tính năng bảo vệ bạo lực của nó. Để giải quyết phòng thí nghiệm, hãy ép buộc mật khẩu của Carlos, sau đó truy cập vào trang tài khoản của anh ấy.
+
+> Vì request là chuỗi json nên sẽ làm list passwd như sau: ![img](../asset/Authentication-vulnerabilities-5-Broken-brute-force-protection-multiple-credentials-per-request-0.png) ![img](../asset/Authentication-vulnerabilities-5-Broken-brute-force-protection-multiple-credentials-per-request-1.png) ![img](../asset/Authentication-vulnerabilities-5-Broken-brute-force-protection-multiple-credentials-per-request-2.png)
+
+> file passwd + user: https://gist.github.com/saamnguyen/1f63d5aa9c771021bb6a4573c24489e9
