@@ -125,6 +125,8 @@
 > Làm lại và add payload là passwd:
 > ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-4.png) ![img](../asset/Authentication-vulnerabilities-1-Username-enumeration-via-subtly-different-responses-5.png)
 
+---
+
 #### Lab: Username enumeration via response timing
 
 > Des: Phòng thí nghiệm này dễ bị liệt kê tên người dùng bằng cách sử dụng thời gian phản hồi của nó. Để giải phòng thí nghiệm, hãy liệt kê một tên người dùng hợp lệ, brute-ép mật khẩu của người dùng này, sau đó truy cập trang tài khoản của họ.
@@ -144,6 +146,8 @@
 
 > và xong: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-7.png)
 
+---
+
 ### Flawed brute-force protection
 
 > Bảo vệ trước cuộc attack brute force là làm cho nó phức tạp nhất để làm chậm và khó tự động hóa của kẻ attcker. 2 cách để chặn brute force là:
@@ -154,6 +158,8 @@
 > Cả 2 cách đều cung cấp các mức độ bảo vệ khác nhau, nhưng không phải là bất khả xâm phạm
 
 > Hoặc chỉ cần login trong khoảng thời gian đều đặn là sẽ bypass qua
+
+---
 
 #### Lab: Broken brute-force protection, IP block
 
@@ -201,3 +207,27 @@
 
 > Vì cần request vào từng lần nên để 1 lần:
 > ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-6.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-7.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-8.png)
+
+---
+
+### Account locking
+
+> Một cách mà web cố gắng ngăn chặn brute force là block tài khoản khi một số lần đăng nhập không thành công
+
+#### Lab: Username enumeration via account lock
+
+> Des: Phòng thí nghiệm này dễ bị liệt kê tên người dùng. Nó sử dụng khóa tài khoản, nhưng điều này chứa một lỗ hổng logic. Để giải phòng thí nghiệm, hãy liệt kê một tên người dùng hợp lệ, brute-ép mật khẩu của người dùng này, sau đó truy cập trang tài khoản của họ.
+
+> Nếu login vào 1 tài khoản sẽ bị lock: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-0.png)
+
+> Send nó qua intruder: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-1.png)
+
+> Và set payload như hình: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-2.png)
+
+> Tại payload 2 để `Generate=5` để mỗi account đc 5 lần request: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-3.png)
+
+> Tìm account có tim response lâu nhất và check response: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-4.png)
+>
+> Các account còn lại đều bị lock
+
+> Lấy account đó và set lại cộng list passwd: ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-5.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-6.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-7.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-8.png) ![img](../asset/Authentication-vulnerabilities-4-Username-enumeration-via-account-lock-9.png)
