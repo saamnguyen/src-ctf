@@ -143,3 +143,61 @@
 > Lấy được user rồi thì làm lại từ đầu nhưng đổi payload thành passwd: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-5.png) ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-6.png)
 
 > và xong: ![img](../asset/Authentication-vulnerabilities-2-Username-enumeration-via-response-timing-7.png)
+
+### Flawed brute-force protection
+
+> Bảo vệ trước cuộc attack brute force là làm cho nó phức tạp nhất để làm chậm và khó tự động hóa của kẻ attcker. 2 cách để chặn brute force là:
+>
+> - Khóa account mà người dùng đang login
+> - Chặn IP
+
+> Cả 2 cách đều cung cấp các mức độ bảo vệ khác nhau, nhưng không phải là bất khả xâm phạm
+
+> Hoặc chỉ cần login trong khoảng thời gian đều đặn là sẽ bypass qua
+
+#### Lab: Broken brute-force protection, IP block
+
+> Des: Phòng thí nghiệm này dễ bị tấn công do lỗ hổng logic trong tính năng bảo vệ bằng mật khẩu. Để giải quyết phòng thí nghiệm, hãy ép mật khẩu của nạn nhân, sau đó đăng nhập và truy cập trang tài khoản của họ.
+
+> Bài này login sai quá 3 lần là sẽ bị block ip trong 1': ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-0.png)
+
+> Nhưng nếu nhập sai passwd đúng user thì sẽ báo là `Passwd invalid` nếu sai cả 2 thì sẽ báo là `username invalid`: ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-1.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-2.png)
+
+> Giờ sẽ login 1 lần đúng, 1 lần sai để không bị chặn IP
+>
+> Tạo script để làm file so le giữ passwd đúng và sai và user đúng và sai:
+>
+> ```
+> passwd = "peter"
+>
+> f = open("passwdold.txt", "r")
+> d = open("passwdnew.txt", "w+")
+>
+> for i in f:
+>    d.write(f"{i}")
+>    d.write(f"{passwd}\n")
+>
+> f.close()
+> d.close()
+> ```
+
+> ```
+> name1 = "carlos"
+> name2 = "wiener"
+> length = 0
+>
+> f = open("username.txt", "w+")
+>
+> while length <= 100:
+>    f.write(f"{name1}\n")
+>    f.write(f"{name2}\n")
+>    length = length + 1
+>
+> f.close()
+> ```
+
+> Sau đó tại intruder rồi config:
+> ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-3.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-4.png) ![img ](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-5.png)
+
+> Vì cần request vào từng lần nên để 1 lần:
+> ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-6.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-7.png) ![img](../asset/Authentication-vulnerabilities-3-Broken-brute-force-protection-IP-block-8.png)
